@@ -7,6 +7,6 @@ public class Ball extends GameObject {
 
     public Ball() {
         transform.Reset();
-        collider = new BoxCollider(this);
+        collider = new BoxCollider(this, transform.position, transform.size);
     }
 }
