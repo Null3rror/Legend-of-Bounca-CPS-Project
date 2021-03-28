@@ -11,6 +11,7 @@ public class Vector2 {
         this(other.x, other.y);
     }
 
+    public static Vector2 Zero(){ return new Vector2(0, 0); }
     public void Set(float x, float y) {
         this.x = x;
         this.y = y;

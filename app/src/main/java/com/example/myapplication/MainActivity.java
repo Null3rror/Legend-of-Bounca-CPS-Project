@@ -6,28 +6,42 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
+import com.example.cpsapp.GameView;
+
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView ball;
-    private float ballY;
+    private ImageView ballSprite;
+    private GameView gameView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+            setContentView(R.layout.activity_main);
 
-        ball = findViewById(R.id.ball);
+        ballSprite = findViewById(R.id.ball);
+        gameView = new GameView(this, ballSprite);
 
-        ball.setX(-80.0f);
-        ball.setY(-80.0f);
-        ballY = -80.0f;
+        setContentView(gameView);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gameView.Pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gameView.Resume();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            ballY -= 20.0f;
-        }
-        ball.setY(ballY);
+//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//            ballY -= 20.0f;
+//        }
+//        ballSprite.setY(ballY);
         return super.onTouchEvent(event);
     }
 }

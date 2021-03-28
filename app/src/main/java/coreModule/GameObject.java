@@ -2,10 +2,10 @@ package coreModule;
 
 import components.Transform;
 
-public class GameObject {
+public abstract class GameObject {
     public Transform transform;
 
-    public GameObject() {
-        transform.Reset();
-    }
+    public abstract void Update();
+
+    public abstract void Draw();
 }
