@@ -1,6 +1,10 @@
 package components.collision;
 
-public interface Collider {
-    public boolean DetectCollision(Collider other);
-    public void Update();
+import coreModule.Bounds;
+import coreModule.GameObject;
+
+public abstract class Collider {
+    public GameObject gameObject;
+    public Bounds bounds;
+    public abstract boolean DetectCollision(Collider other);
 }

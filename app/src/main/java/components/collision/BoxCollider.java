@@ -1,27 +1,20 @@
 package components.collision;
 
+import coreModule.Bounds;
 import coreModule.GameObject;
 import coreModule.Vector2;
 
-public class BoxCollider implements Collider {
 
-    private GameObject gameObject;
-    private Vector2 center;
-    private Vector2 size;
-
-    public BoxCollider(GameObject gameObject) {
+public class BoxCollider extends Collider {
+    public BoxCollider(GameObject gameObject, Vector2 center, Vector2 size) {
         this.gameObject = gameObject;
+        this.bounds = new Bounds(center, size);
     }
 
-    public void Update() {
-        center = gameObject.transform.position;
-        size   = gameObject.transform.size;
-    }
+
 
     @Override
     public boolean DetectCollision(Collider other) {
-        Update();
-        other.Update();
-        return false;
+        return bounds.Intersects(other.bounds);
     }
 }
