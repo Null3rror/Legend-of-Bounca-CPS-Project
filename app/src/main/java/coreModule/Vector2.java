@@ -7,6 +7,10 @@ public class Vector2 {
         Set(x, y);
     }
 
+    public Vector2(Vector2 other) {
+        this(other.x, other.y);
+    }
+
     public void Set(float x, float y) {
         this.x = x;
         this.y = y;
@@ -23,11 +27,15 @@ public class Vector2 {
     public void Normalize() {
         float magnitude = Magnitude();
 
-        if (magnitude == 0.0f)
-            return;
+        DivideByScalar(magnitude);
+    }
 
-        x /= magnitude;
-        y /= magnitude;
+
+    public void DivideByScalar(float scalar) {
+        if (scalar == 0.0f)
+            return;
+        x /= scalar;
+        y /= scalar;
     }
 
 
