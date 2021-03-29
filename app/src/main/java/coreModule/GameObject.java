@@ -1,5 +1,8 @@
 package coreModule;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+
 import components.Transform;
 
 public abstract class GameObject {
@@ -7,5 +10,5 @@ public abstract class GameObject {
 
     public abstract void Update();
 
-    public abstract void Draw();
+    public abstract void Render(Canvas canvas, Paint paint);
 }

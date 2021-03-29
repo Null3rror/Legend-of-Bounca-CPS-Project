@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.ImageView;
@@ -16,32 +17,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
-        ballSprite = findViewById(R.id.ball);
-        gameView = new GameView(this, ballSprite);
-
-        setContentView(gameView);
+        startActivity(new Intent(MainActivity.this, GameActivity.class));
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        gameView.Pause();
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        gameView.Resume();
-    }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//            ballY -= 20.0f;
-//        }
-//        ballSprite.setY(ballY);
-        return super.onTouchEvent(event);
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+////        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+////            ballY -= 20.0f;
+////        }
+////        ballSprite.setY(ballY);
+//        return super.onTouchEvent(event);
+//    }
 }

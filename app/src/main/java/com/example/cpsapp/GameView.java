@@ -1,8 +1,10 @@
 package com.example.cpsapp;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.SurfaceView;
-import android.widget.ImageView;
 
 import coreModule.GameObject;
 import gameObjects.Ball;
@@ -11,12 +13,16 @@ public class GameView extends SurfaceView implements Runnable {
     private boolean isRunning;
     private Thread thread;
     private GameObject ball;
+    private Paint paint;
 
 
-    public GameView(Context context, ImageView ballSprite) {
+    public GameView(Context context) {
         super(context);
-        ball = new Ball(ballSprite);
-
+        ball = new Ball();
+        ball.transform.position.Set(50, 50);
+        ball.transform.position.Set(50, 50);
+        paint = new Paint();
+        paint.setColor(Color.BLUE);
     }
 
     @Override
@@ -38,8 +44,13 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void Draw() {
+        if (getHolder().getSurface().isValid()) {
+            Canvas canvas = getHolder().lockCanvas();
+            ball.Render(canvas, paint);
 
-        ball.Draw();
+            getHolder().unlockCanvasAndPost(canvas);
+        }
+
     }
 
     private void Sleep() {

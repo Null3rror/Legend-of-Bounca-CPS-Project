@@ -5,11 +5,16 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Legend of Bounca"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".MainActivity"
+        <activity android:name=".GameActivity"
+            android:theme="@style/AppTheme.noActionBar"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.noActionBar"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
