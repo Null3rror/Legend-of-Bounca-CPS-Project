@@ -11,6 +11,8 @@ import androidx.annotation.Dimension;
 
 import com.example.SpriteType;
 
+import java.util.List;
+
 import components.RigidBody;
 import components.Sprite;
 import components.Transform;
@@ -23,12 +25,12 @@ import coreModule.Constants;
 
 
 public class GameBorder extends GameObject {
-    private Collider collider;
     private float angle;
     private Sprite sprite;
 
 
-    public GameBorder(){
+    public GameBorder(String tag, List<String> tagsToCheckCollisionWith){
+        super(tag, tagsToCheckCollisionWith);
         angle = 0f;
         this.transform = new Transform();
 

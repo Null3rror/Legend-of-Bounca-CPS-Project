@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceView;
 
+import java.util.Collections;
+
 import coreModule.Constants;
 import coreModule.GameObject;
 import gameObjects.Ball;
@@ -21,11 +23,17 @@ public class GameView extends SurfaceView implements Runnable {
 
     public GameView(Context context) {
         super(context);
-        ball = new Ball(Constants.ballRadius, Constants.ballMass, 50, 50);
+        ball = new Ball(Constants.ballRadius,
+                Constants.ballMass,
+                500,
+                50,
+                Constants.ballTag,
+                Collections.singletonList(Constants.borderTag));
+        border = new GameBorder(Constants.borderTag, null);
         paint = new Paint();
 
 
-        border = new GameBorder();
+
     }
 
     @Override

@@ -7,6 +7,8 @@ import android.widget.ImageView;
 
 import com.example.SpriteType;
 
+import java.util.List;
+
 import components.RigidBody;
 import components.Sprite;
 import components.Transform;
@@ -17,11 +19,10 @@ import coreModule.Time;
 import coreModule.Vector2;
 
 public class Ball extends GameObject {
-    private Collider collider;
-    private RigidBody rigidBody;
     private Sprite sprite;
 
-    public Ball(float radius, float mass, int startPosX, int startPosY) {
+    public Ball(float radius, float mass, int startPosX, int startPosY, String tag, List<String> tagsToCheckCollisionWith) {
+        super(tag, tagsToCheckCollisionWith);
         this.transform = new Transform(startPosX, startPosY, radius, radius);
 
         this.collider = new BoxCollider(this, transform.position, transform.size);
@@ -31,6 +32,7 @@ public class Ball extends GameObject {
 
     @Override
     public void Update() {
+        collider.Update();
         rigidBody.Update();
     }
 
@@ -40,4 +42,12 @@ public class Ball extends GameObject {
         paint.setColor(Color.BLUE);
         sprite.Draw(canvas, paint);
     }
+
+    @Override
+    public void OnCollisionEnter(Collider other) {
+        System.out.println("child");
+    }
+
+
+
 }

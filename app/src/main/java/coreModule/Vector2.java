@@ -49,4 +49,9 @@ public class Vector2 {
         return Float.compare(vector2.x, x) == 0 &&
                 Float.compare(vector2.y, y) == 0;
     }
+
+    @Override
+    public String toString() {
+        return x + ", " + y;
+    }
 }
