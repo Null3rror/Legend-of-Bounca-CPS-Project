@@ -24,24 +24,19 @@ public class RigidBody {
     }
 
     public void Update() {
-        // sesnor got angle
-        if(isFalling){
+        // sensor got angle
+        if (isFalling) {
             acceleration.Set(0, g);
-            SetVelocity();
-            SetPosition();
-        }else{
-            System.out.println("33: jeddan hichi!!");
+            Vector2 v0 = new Vector2(this.velocity);
+            Vector2 p0 = new Vector2(gameObject.transform.position);
+
+            velocity.Set(acceleration.x * Time.DeltaTime() + v0.x, acceleration.y * Time.DeltaTime() + v0.y);
+            gameObject.transform.position.Set(Time.DeltaTime() * 0.5f * (velocity.x + v0.x) + p0.x, Time.DeltaTime() * 0.5f * (velocity.y + v0.y) + p0.y);  // p = t/2(v + v0) + p0 = t/2(gt + v0 + v0) + p0 = t/2(gt + 2v0) + p0 = 1/2gt^2 + v0t + p0
+        }
+        else {
+            System.out.println("on ground");
         }
     }
 
-    private void SetVelocity(){
-        Vector2 v0 = new Vector2(this.velocity);
-        velocity.Set(acceleration.x * Time.DeltaTime() * 0.5f + v0.x, acceleration.y * Time.DeltaTime() * 0.5f + v0.y);
-    }
-
-    private void SetPosition(){
-        Vector2 p0 = new Vector2(gameObject.transform.position);
-        gameObject.transform.position.Set(velocity.x * Time.DeltaTime() + p0.x, velocity.y * Time.DeltaTime() + p0.y);
-    }
 
 }

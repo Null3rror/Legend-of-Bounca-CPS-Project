@@ -34,8 +34,8 @@ public class Ball extends GameObject {
         //sensor interface called!!!
         // fall ball
         rigidBody.Update();
-        Vector2 position = transform.position;
-        transform.position.Set(position.x + 250 * Time.DeltaTime(), position.y + 250 * Time.DeltaTime());
+//        Vector2 position = transform.position;
+//        transform.position.Set(position.x + 250 * Time.DeltaTime(), position.y + 250 * Time.DeltaTime());
     }
 
 
