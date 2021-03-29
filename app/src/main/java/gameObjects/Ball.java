@@ -13,6 +13,7 @@ import components.collision.BoxCollider;
 import components.collision.Collider;
 import coreModule.GameObject;
 import coreModule.Time;
+import coreModule.Vector2;
 
 public class Ball extends GameObject {
     private Collider collider;
@@ -29,7 +30,8 @@ public class Ball extends GameObject {
 
     @Override
     public void Update() {
-        transform.position.Set(transform.position.x + 1 * Time.DeltaTime(), transform.position.y + 1 * Time.DeltaTime());
+        Vector2 position = transform.position;
+        transform.position.Set(position.x + 25 * Time.DeltaTime(), position.y + 25 * Time.DeltaTime());
     }
 
 

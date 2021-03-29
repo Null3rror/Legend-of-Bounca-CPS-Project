@@ -25,7 +25,8 @@ public class Sprite {
     public void Draw(Canvas canvas, Paint paint) {
         if (type == Circle) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                canvas.drawOval(gameObject.transform.position.x - 25, gameObject.transform.position.y + 25, gameObject.transform.position.x + 25,  gameObject.transform.position.y - 25, paint);
+                Vector2 position = gameObject.transform.position;
+                canvas.drawOval(position.x - 25, position.y + 25, position.x + 25,  position.y - 25, paint);
             }
         }
     }
