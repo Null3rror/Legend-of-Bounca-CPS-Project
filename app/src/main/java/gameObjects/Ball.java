@@ -1,6 +1,7 @@
 package gameObjects;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.widget.ImageView;
 
@@ -34,6 +35,9 @@ public class Ball extends GameObject {
         //sensor interface called!!!
         // fall ball
         rigidBody.Update();
+
+        //check collision
+
 //        Vector2 position = transform.position;
 //        transform.position.Set(position.x + 250 * Time.DeltaTime(), position.y + 250 * Time.DeltaTime());
     }
@@ -41,6 +45,7 @@ public class Ball extends GameObject {
 
     @Override
     public void Render(Canvas canvas, Paint paint) {
+        paint.setColor(Color.BLUE);
         sprite.Draw(canvas, paint);
     }
 }

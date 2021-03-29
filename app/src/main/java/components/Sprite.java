@@ -1,12 +1,14 @@
 package components;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Build;
 
 import com.example.SpriteType;
 
+import coreModule.Constants;
 import coreModule.GameObject;
 import coreModule.Vector2;
 
@@ -28,6 +30,34 @@ public class Sprite {
                 Vector2 position = gameObject.transform.position;
                 canvas.drawOval(position.x - 25, position.y + 25, position.x + 25,  position.y - 25, paint);
             }
+        }else{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                canvas.drawRoundRect(GetOuterRect(), 30f, 30f, paint);
+                paint.setColor(Color.LTGRAY);
+                canvas.drawRoundRect(GetInnerRect(), 30f, 30f, paint);
+
+            }
         }
+    }
+
+    private RectF GetInnerRect(){
+        System.out.println((gameObject.transform.position.y - gameObject.transform.size.y / 2) + " --- " +
+                (gameObject.transform.position.x - gameObject.transform.size.x / 2) + " --- " +
+                (gameObject.transform.position.y + gameObject.transform.size.y / 2) + " --- " +
+                (gameObject.transform.position.x + gameObject.transform.size.x / 2));
+        return new RectF( gameObject.transform.position.y - gameObject.transform.size.y / 2,
+                gameObject.transform.position.x - gameObject.transform.size.x / 2,
+                gameObject.transform.position.y + gameObject.transform.size.y / 2,
+                gameObject.transform.position.x + gameObject.transform.size.x / 2);
+    }
+
+    private RectF GetOuterRect(){
+//        RectF innerRectF = GetInnerRect();
+        return new RectF( gameObject.transform.position.y - gameObject.transform.size.y / 2 - Constants.borderThickness,
+                gameObject.transform.position.x - gameObject.transform.size.x / 2 - Constants.borderThickness,
+                gameObject.transform.position.y + gameObject.transform.size.y / 2 + Constants.borderThickness,
+                gameObject.transform.position.x + gameObject.transform.size.x / 2 + Constants.borderThickness);
+
     }
 }

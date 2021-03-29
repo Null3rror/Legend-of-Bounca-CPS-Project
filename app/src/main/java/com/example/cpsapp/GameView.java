@@ -8,12 +8,14 @@ import android.view.SurfaceView;
 
 import coreModule.GameObject;
 import gameObjects.Ball;
+import gameObjects.GameBorder;
 
 public class GameView extends SurfaceView implements Runnable {
     private boolean isRunning;
     private Thread thread;
     private GameObject ball;
     private Paint paint;
+    private GameObject border;
 
 
     public GameView(Context context) {
@@ -22,7 +24,9 @@ public class GameView extends SurfaceView implements Runnable {
         ball.transform.position.Set(50, 50);
         ball.transform.position.Set(50, 50);
         paint = new Paint();
-        paint.setColor(Color.BLUE);
+
+
+        border = new GameBorder();
     }
 
     @Override
@@ -48,8 +52,8 @@ public class GameView extends SurfaceView implements Runnable {
         if (getHolder().getSurface().isValid()) {
             Canvas canvas = getHolder().lockCanvas();
             canvas.drawColor(Color.WHITE); // draw background g
+            border.Render(canvas, paint);
             ball.Render(canvas, paint);
-
             getHolder().unlockCanvasAndPost(canvas);
         }
 
