@@ -25,8 +25,8 @@ public class GameView extends SurfaceView implements Runnable {
         super(context);
         ball = new Ball(Constants.ballRadius,
                 Constants.ballMass,
-                500,
-                50,
+                550,
+                1050,
                 Constants.ballTag,
                 Collections.singletonList(Constants.borderTag));
         border = new GameBorder(Constants.borderTag, null);

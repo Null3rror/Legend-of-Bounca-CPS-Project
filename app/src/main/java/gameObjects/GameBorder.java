@@ -34,8 +34,8 @@ public class GameBorder extends GameObject {
         angle = 0f;
         this.transform = new Transform();
 
-        int offsetX = getScreenWidth() / 5;
-        int offsetY = getScreenHeight() / 5;
+        int offsetX = getScreenWidth() / 20;
+        int offsetY = getScreenHeight() / 10;
         int sizeY = getScreenHeight() - 2 * offsetY - 2 * Constants.borderThickness;
         int sizeX = getScreenWidth() - 2 * offsetX - 2 * Constants.borderThickness;
         this.transform.size.Set(sizeX, sizeY);

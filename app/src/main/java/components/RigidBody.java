@@ -17,7 +17,7 @@ public class RigidBody {
     public RigidBody(float mass, GameObject gameObject) {
         this.mass = mass;
         this.velocity = Vector2.Zero();
-        this.velocity.Set(0, 500);
+        this.velocity.Set(0, 100);
         this.acceleration = Vector2.Zero();
         this.gameObject = gameObject;
         this.isFalling = true;
@@ -38,5 +38,9 @@ public class RigidBody {
         else {
             System.out.println("on ground");
         }
+    }
+
+    public void Bounce() {
+        velocity.Set(0, (float) ((-1) * Constants.wastedEnergyCoefficient * velocity.y));
     }
 }

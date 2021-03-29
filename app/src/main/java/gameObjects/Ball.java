@@ -45,7 +45,8 @@ public class Ball extends GameObject {
 
     @Override
     public void OnCollisionEnter(Collider other) {
-        System.out.println("child");
+        // free fall
+       rigidBody.Bounce();
     }
 
 

@@ -7,6 +7,11 @@ public class Constants {
 
     public static final float ballMass     = 0.01f;
     public static final float g = 10f;
+    public static final float wastedEnergy = 0.1f;
+    public static final float wastedEnergyCoefficient;
+    static{
+        wastedEnergyCoefficient = (float) Math.sqrt(1 - wastedEnergy);
+    }
 
     public static final String ballTag = "ball";
     public static final String borderTag = "border";
