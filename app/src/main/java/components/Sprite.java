@@ -33,31 +33,35 @@ public class Sprite {
         }else{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-                canvas.drawRoundRect(GetOuterRect(), 30f, 30f, paint);
+                RectF innerRectF = GetInnerRect();
+                canvas.drawRoundRect(GetOuterRect(innerRectF), 30f, 30f, paint);
                 paint.setColor(Color.LTGRAY);
-                canvas.drawRoundRect(GetInnerRect(), 30f, 30f, paint);
+                canvas.drawRoundRect(innerRectF, 30f, 30f, paint);
 
             }
         }
     }
 
-    private RectF GetInnerRect(){
-        System.out.println((gameObject.transform.position.y - gameObject.transform.size.y / 2) + " --- " +
-                (gameObject.transform.position.x - gameObject.transform.size.x / 2) + " --- " +
-                (gameObject.transform.position.y + gameObject.transform.size.y / 2) + " --- " +
-                (gameObject.transform.position.x + gameObject.transform.size.x / 2));
-        return new RectF( gameObject.transform.position.y - gameObject.transform.size.y / 2,
-                gameObject.transform.position.x - gameObject.transform.size.x / 2,
-                gameObject.transform.position.y + gameObject.transform.size.y / 2,
-                gameObject.transform.position.x + gameObject.transform.size.x / 2);
+    private RectF GetInnerRect() {
+        Vector2 center = gameObject.transform.position;
+        Vector2 size   = gameObject.transform.size;
+        int left   = (int)center.x - (int)size.x / 2;
+        int top    = (int)center.y - (int)size.y / 2;
+        int right  = (int)center.x + (int)size.x / 2;
+        int bottom = (int)center.y + (int)size.y / 2;
+//        System.out.println(left + ", " + top + ", " + right + ", " + bottom);
+        System.out.println(center.x + ", " + center.y + "\n" + size.x + "| " + size.y);
+
+        return new RectF(left, top, right, bottom);
     }
 
-    private RectF GetOuterRect(){
-//        RectF innerRectF = GetInnerRect();
-        return new RectF( gameObject.transform.position.y - gameObject.transform.size.y / 2 - Constants.borderThickness,
-                gameObject.transform.position.x - gameObject.transform.size.x / 2 - Constants.borderThickness,
-                gameObject.transform.position.y + gameObject.transform.size.y / 2 + Constants.borderThickness,
-                gameObject.transform.position.x + gameObject.transform.size.x / 2 + Constants.borderThickness);
+    private RectF GetOuterRect(RectF innerRectF) {
+        int left   = (int)innerRectF.left   - (int)Constants.borderThickness;
+        int top    = (int)innerRectF.top    - (int)Constants.borderThickness;
+        int right  = (int)innerRectF.right  + (int)Constants.borderThickness;
+        int bottom = (int)innerRectF.bottom + (int)Constants.borderThickness;
+//        System.out.println(left + "| " + top + "| " + right + "| " + bottom);
 
+        return new RectF(left, top, right, bottom);
     }
 }

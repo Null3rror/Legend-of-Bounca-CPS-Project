@@ -42,6 +42,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void Update() {
         ball.Update();
+        border.Update();
     }
 
     private void LateUpdate() {
