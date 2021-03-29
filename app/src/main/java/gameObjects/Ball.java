@@ -14,6 +14,7 @@ import components.Sprite;
 import components.Transform;
 import components.collision.BoxCollider;
 import components.collision.Collider;
+import coreModule.Bounds;
 import coreModule.GameObject;
 import coreModule.Time;
 import coreModule.Vector2;
@@ -43,10 +44,14 @@ public class Ball extends GameObject {
         sprite.Draw(canvas, paint);
     }
 
+
+
+
     @Override
     public void OnCollisionEnter(Collider other) {
-        // free fall
-       rigidBody.Bounce();
+        Vector2 normal = other.bounds.CalculateHitPointNormal(transform.position);
+
+        rigidBody.Bounce();
     }
 
 

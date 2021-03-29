@@ -28,6 +28,10 @@ public class Bounds {
                 other.max.y <= max.y;
     }
 
+    public Vector2 CalculateHitPointNormal(Vector2 position) {
+        return Vector2.Zero();
+    }
+
     public boolean Intersects(Bounds other) {
         UpdateMinMax();
         other.UpdateMinMax();
