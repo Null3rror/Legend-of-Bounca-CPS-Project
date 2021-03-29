@@ -31,7 +31,7 @@ public class Ball extends GameObject {
     @Override
     public void Update() {
         Vector2 position = transform.position;
-        transform.position.Set(position.x + 25 * Time.DeltaTime(), position.y + 25 * Time.DeltaTime());
+        transform.position.Set(position.x + 250 * Time.DeltaTime(), position.y + 250 * Time.DeltaTime());
     }
 
 

@@ -46,6 +46,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void Draw() {
         if (getHolder().getSurface().isValid()) {
             Canvas canvas = getHolder().lockCanvas();
+            canvas.drawColor(Color.WHITE); // draw background g
             ball.Render(canvas, paint);
 
             getHolder().unlockCanvasAndPost(canvas);
