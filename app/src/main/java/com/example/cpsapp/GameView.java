@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceView;
 
+import coreModule.Constants;
 import coreModule.GameObject;
 import gameObjects.Ball;
 import gameObjects.GameBorder;
@@ -20,9 +21,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     public GameView(Context context) {
         super(context);
-        ball = new Ball(25.0f, 0.01f);
-        ball.transform.position.Set(50, 50);
-        ball.transform.position.Set(50, 50);
+        ball = new Ball(Constants.ballRadius, Constants.ballMass, 50, 50);
         paint = new Paint();
 
 
@@ -62,7 +61,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void Sleep() {
         try {
-            Thread.sleep(16); // fps = 60
+            Thread.sleep(Constants.fixedDeltaTime); // fps = 60
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

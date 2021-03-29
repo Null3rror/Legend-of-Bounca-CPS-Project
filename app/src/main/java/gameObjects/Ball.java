@@ -21,10 +21,9 @@ public class Ball extends GameObject {
     private RigidBody rigidBody;
     private Sprite sprite;
 
-    public Ball(float radius, float mass) {
-        this.transform = new Transform();
-        this.transform.Reset();
-        this.transform.size.Set(radius, radius);
+    public Ball(float radius, float mass, int startPosX, int startPosY) {
+        this.transform = new Transform(startPosX, startPosY, radius, radius);
+
         this.collider = new BoxCollider(this, transform.position, transform.size);
         this.rigidBody = new RigidBody(mass, this);
         this.sprite = new Sprite(this, SpriteType.Circle);

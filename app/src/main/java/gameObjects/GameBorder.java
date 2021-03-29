@@ -31,7 +31,6 @@ public class GameBorder extends GameObject {
     public GameBorder(){
         angle = 0f;
         this.transform = new Transform();
-        this.transform.Reset();
 
         int offsetX = getScreenWidth() / 5;
         int offsetY = getScreenHeight() / 5;
