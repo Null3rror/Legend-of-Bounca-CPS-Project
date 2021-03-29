@@ -28,8 +28,15 @@ public class Bounds {
                 other.max.y <= max.y;
     }
 
-    public Vector2 CalculateHitPointNormal(Vector2 position) {
-        return Vector2.Zero();
+    public Vector2 CalculateHitPointNormal(Bounds other) {
+        Vector2 normal = Vector2.Zero();
+
+        if(other.min.x <= min.x || other.max.x >= max.x)  //left , right
+            normal.Set(1, normal.y);
+        if(other.min.y <= min.y || other.max.y >= max.y) //top , bottom
+            normal.Set(normal.x, 1);
+
+        return normal;
     }
 
     public boolean Intersects(Bounds other) {

@@ -17,7 +17,7 @@ public class RigidBody {
     public RigidBody(float mass, GameObject gameObject) {
         this.mass = mass;
         this.velocity = Vector2.Zero();
-        this.velocity.Set(0, 100);
+        this.velocity.Set(300, 300);
         this.acceleration = Vector2.Zero();
         this.gameObject = gameObject;
         this.isFalling = true;
@@ -27,7 +27,7 @@ public class RigidBody {
     public void Update() {
         // sensor got angle
         if (isFalling) {
-            acceleration.Set(0, g);
+            acceleration.Set(g, g);
             Vector2 v0 = new Vector2(this.velocity);
             Vector2 p0 = new Vector2(gameObject.transform.position);
 //            System.out.println("--> " + v0.x + ",--> " + v0.y);
@@ -40,7 +40,12 @@ public class RigidBody {
         }
     }
 
-    public void Bounce() {
-        velocity.Set(0, (float) ((-1) * Constants.wastedEnergyCoefficient * velocity.y));
+    public void Bounce(Vector2 hitNormal) {
+//        -2 * hitNormal * velocity + velocity
+        Vector2 temp;
+        temp = hitNormal.ScalarProduct(-2f);
+        temp = velocity.DotProduct(temp);
+        velocity = temp.Sum(velocity);
+//        velocity.Set((float) ((-1) * Constants.wastedEnergyCoefficient * velocity.x), (float) ((-1) * Constants.wastedEnergyCoefficient * velocity.y));
     }
 }

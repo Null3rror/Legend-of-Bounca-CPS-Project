@@ -49,9 +49,8 @@ public class Ball extends GameObject {
 
     @Override
     public void OnCollisionEnter(Collider other) {
-        Vector2 normal = other.bounds.CalculateHitPointNormal(transform.position);
-
-        rigidBody.Bounce();
+        Vector2 hitNormal = other.bounds.CalculateHitPointNormal(collider.bounds);
+        rigidBody.Bounce(hitNormal);
     }
 
 
