@@ -15,9 +15,8 @@ import coreModule.Vector2;
 import static com.example.SpriteType.Circle;
 
 public class Sprite {
-
-    private SpriteType type;
-    private GameObject gameObject;
+    private final SpriteType type;
+    private final GameObject gameObject;
 
     public Sprite(GameObject gameObject, SpriteType spriteType) {
         this.gameObject = gameObject;
@@ -28,7 +27,12 @@ public class Sprite {
         if (type == Circle) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Vector2 position = gameObject.transform.position;
-                canvas.drawOval(position.x - 25, position.y + 25, position.x + 25,  position.y - 25, paint);
+                float radius     = gameObject.transform.size.x;
+                canvas.drawOval(position.x - radius,
+                        position.y + radius,
+                        position.x + radius,
+                        position.y - radius,
+                        paint);
             }
         }else{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -50,7 +54,7 @@ public class Sprite {
         int right  = (int)center.x + (int)size.x / 2;
         int bottom = (int)center.y + (int)size.y / 2;
 //        System.out.println(left + ", " + top + ", " + right + ", " + bottom);
-        System.out.println(center.x + ", " + center.y + "\n" + size.x + "| " + size.y);
+//        System.out.println(center.x + ", " + center.y + "\n" + size.x + "| " + size.y);
 
         return new RectF(left, top, right, bottom);
     }

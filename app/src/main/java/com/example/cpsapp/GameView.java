@@ -20,7 +20,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     public GameView(Context context) {
         super(context);
-        ball = new Ball();
+        ball = new Ball(25.0f, 0.01f);
         ball.transform.position.Set(50, 50);
         ball.transform.position.Set(50, 50);
         paint = new Paint();

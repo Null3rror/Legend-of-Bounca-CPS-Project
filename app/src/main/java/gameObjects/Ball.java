@@ -21,25 +21,18 @@ public class Ball extends GameObject {
     private RigidBody rigidBody;
     private Sprite sprite;
 
-    public Ball() {
+    public Ball(float radius, float mass) {
         this.transform = new Transform();
         this.transform.Reset();
+        this.transform.size.Set(radius, radius);
         this.collider = new BoxCollider(this, transform.position, transform.size);
-        this.rigidBody = new RigidBody(0.01f, this);
+        this.rigidBody = new RigidBody(mass, this);
         this.sprite = new Sprite(this, SpriteType.Circle);
     }
 
     @Override
     public void Update() {
-
-        //sensor interface called!!!
-        // fall ball
         rigidBody.Update();
-
-        //check collision
-
-//        Vector2 position = transform.position;
-//        transform.position.Set(position.x + 250 * Time.DeltaTime(), position.y + 250 * Time.DeltaTime());
     }
 
 
