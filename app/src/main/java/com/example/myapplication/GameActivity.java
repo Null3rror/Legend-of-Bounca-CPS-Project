@@ -20,10 +20,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent intent = getIntent();
-        String sensor = intent.getStringExtra("Sensor");
-        System.out.println(sensor);
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
@@ -31,6 +27,10 @@ public class GameActivity extends AppCompatActivity {
         gameView = new GameView(this);
 
         setContentView(gameView);
+
+        Intent intent = getIntent();
+        String sensor = intent.getStringExtra("Sensor");
+        System.out.println(sensor);
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.view.SurfaceView;
 
 import java.util.Collections;
+import java.util.Random;
 
 import coreModule.Constants;
 import coreModule.GameObject;
@@ -25,8 +26,8 @@ public class GameView extends SurfaceView implements Runnable {
         super(context);
         ball = new Ball(Constants.ballRadius,
                 Constants.ballMass,
-                550,
-                1050,
+                GameBorder.GetScreenWidth() / 2,
+                GameBorder.GetScreenHeight() / 2,
                 Constants.ballTag,
                 Collections.singletonList(Constants.borderTag));
         border = new GameBorder(Constants.borderTag, null);
@@ -86,6 +87,9 @@ public class GameView extends SurfaceView implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    public  static float RandomNumberGenerator(int min , int max){
+        return (new Random()).nextInt(max) + min;
     }
 
 }
