@@ -30,10 +30,8 @@ public class GameView extends SurfaceView implements Runnable {
                 Constants.ballTag,
                 Collections.singletonList(Constants.borderTag));
         border = new GameBorder(Constants.borderTag, null);
+        //TODO ADD partab moshak button
         paint = new Paint();
-
-
-
     }
 
     @Override

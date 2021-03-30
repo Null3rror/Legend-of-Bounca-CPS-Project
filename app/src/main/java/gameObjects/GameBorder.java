@@ -4,24 +4,16 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
-import android.util.DisplayMetrics;
-
-import androidx.annotation.Dimension;
 
 import com.example.SpriteType;
 
 import java.util.List;
 
-import components.RigidBody;
 import components.Sprite;
 import components.Transform;
 import components.collision.BoxCollider;
-import components.collision.Collider;
 import coreModule.Constants;
 import coreModule.GameObject;
-
-import coreModule.Constants;
 
 
 public class GameBorder extends GameObject {
@@ -34,13 +26,13 @@ public class GameBorder extends GameObject {
         angle = 0f;
         this.transform = new Transform();
 
-        int offsetX = getScreenWidth() / 20;
-        int offsetY = getScreenHeight() / 10;
-        int sizeY = getScreenHeight() - 2 * offsetY - 2 * Constants.borderThickness;
-        int sizeX = getScreenWidth() - 2 * offsetX - 2 * Constants.borderThickness;
+        int offsetX = GetScreenWidth() / 20;
+        int offsetY = GetScreenHeight() / 10;
+        int sizeY = GetScreenHeight() - 2 * offsetY - 2 * Constants.borderThickness;
+        int sizeX = GetScreenWidth() - 2 * offsetX - 2 * Constants.borderThickness;
         this.transform.size.Set(sizeX, sizeY);
 
-        this.transform.position.Set(getScreenWidth() >> 1, getScreenHeight() >> 1);
+        this.transform.position.Set(GetScreenWidth() >> 1, GetScreenHeight() >> 1);
 
         this.collider = new BoxCollider(this, transform.position, transform.size);
         this.sprite = new Sprite(this, SpriteType.Board);
@@ -52,11 +44,11 @@ public class GameBorder extends GameObject {
 
     }
 
-    public static int getScreenWidth() {
+    public static int GetScreenWidth() {
         return Math.max(Resources.getSystem().getDisplayMetrics().widthPixels, Resources.getSystem().getDisplayMetrics().heightPixels);
     }
 
-    public static int getScreenHeight() {
+    public static int GetScreenHeight() {
         return Math.min(Resources.getSystem().getDisplayMetrics().widthPixels, Resources.getSystem().getDisplayMetrics().heightPixels);
     }
     @Override
