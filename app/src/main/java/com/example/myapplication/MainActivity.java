@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // startActivity(new Intent(MainActivity.this, GameActivity.class));
 
         Button btnGravity = (Button) findViewById(R.id.btn_Gravity);
         Button btnGyroscope = (Button) findViewById(R.id.btn_Gyroscope);
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent gravity = new Intent(MainActivity.this, GameActivity.class);
-                gravity.putExtra("Sensor",SensorType.Gravity);
+                gravity.putExtra("Sensor",SensorType.Gravity.toString());
                 startActivity(gravity);
             }
         });
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent gyroscope = new Intent(MainActivity.this, GameActivity.class);
-                gyroscope.putExtra("Sensor",SensorType.Gyroscope);
+                gyroscope.putExtra("Sensor",SensorType.Gyroscope.toString());
                 startActivity(gyroscope);
             }
         });
