@@ -9,7 +9,10 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.SensorType;
 import com.example.cpsapp.GameView;
+
+import coreModule.GameObject;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -19,6 +22,9 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        GameObject.gameObjects.clear();
+        System.out.println("Game Activity on create");
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Point point = new Point();
@@ -30,7 +36,7 @@ public class GameActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String sensor = intent.getStringExtra("Sensor");
-        System.out.println(sensor);
+        //System.out.println(sensor);
     }
 
     @Override
@@ -43,5 +49,11 @@ public class GameActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         gameView.Resume();
+    }
+    @Override
+    public void onBackPressed() {
+        onStop();
+        Intent mainActivity = new Intent(GameActivity.this, MainActivity.class);
+        startActivity(mainActivity);
     }
 }

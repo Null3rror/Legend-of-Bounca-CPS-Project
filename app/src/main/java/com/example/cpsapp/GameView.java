@@ -14,6 +14,7 @@ import coreModule.GameObject;
 import gameObjects.Ball;
 import gameObjects.GameBorder;
 
+
 public class GameView extends SurfaceView implements Runnable {
     private boolean isRunning;
     private Thread thread;
@@ -26,8 +27,8 @@ public class GameView extends SurfaceView implements Runnable {
         super(context);
         ball = new Ball(Constants.ballRadius,
                 Constants.ballMass,
-                GameBorder.GetScreenWidth() / 2,
-                GameBorder.GetScreenHeight() / 2,
+                (GameBorder.GetScreenWidth() / 14 ) + RandomNumberGenerator(20 , (int)(GameBorder.GetScreenWidth() * 0.75)),
+                (GameBorder.GetScreenHeight() / 7 ) + RandomNumberGenerator(20 , (int)(GameBorder.GetScreenHeight() * 0.75)),
                 Constants.ballTag,
                 Collections.singletonList(Constants.borderTag));
         border = new GameBorder(Constants.borderTag, null);
@@ -47,8 +48,10 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void Update() {
-        ball.Update();
-        border.Update();
+        for (GameObject object:
+             GameObject.gameObjects) {
+            object.Update();
+        }
     }
 
     private void LateUpdate() {
@@ -88,8 +91,10 @@ public class GameView extends SurfaceView implements Runnable {
             e.printStackTrace();
         }
     }
-    public  static float RandomNumberGenerator(int min , int max){
-        return (new Random()).nextInt(max) + min;
+    public  static int RandomNumberGenerator(int min , int max){
+        int random = new Random().nextInt(max - min + 1) + min;
+       // System.out.println(random);
+        return random;
     }
 
 }
