@@ -11,8 +11,6 @@ public class BoxCollider extends Collider {
         this.bounds = new Bounds(center, size);
     }
 
-
-
     @Override
     public boolean DetectCollision(Collider other) {
         return bounds.Intersects(other.bounds);

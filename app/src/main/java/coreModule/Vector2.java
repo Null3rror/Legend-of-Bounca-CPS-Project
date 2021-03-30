@@ -28,16 +28,22 @@ public class Vector2 {
     public void Normalize() {
         float magnitude = Magnitude();
 
-        DivideByScalar(magnitude);
+        ScalarDivide(magnitude);
     }
 
 
-    public void DivideByScalar(float scalar) {
+    public void ScalarDivide(float scalar) {
         if (scalar == 0.0f)
             return;
         x /= scalar;
         y /= scalar;
     }
+
+    public Vector2 DotProduct(Vector2 other){ return new Vector2(x * other.x, y * other.y); }
+    public Vector2 Sum(Vector2 other){ return new Vector2(x + other.x, y + other.y); }
+    public Vector2 ScalarProduct(float scalar){ return DotProduct(new Vector2(scalar, scalar)); }
+
+
 
 
 
@@ -48,5 +54,12 @@ public class Vector2 {
         Vector2 vector2 = (Vector2) o;
         return Float.compare(vector2.x, x) == 0 &&
                 Float.compare(vector2.y, y) == 0;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return x + ", " + y;
     }
 }
