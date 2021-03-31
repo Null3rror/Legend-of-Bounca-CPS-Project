@@ -47,7 +47,7 @@ public class GameActivity extends AppCompatActivity {
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         InstantiateSensor();
-        
+
 
         gameView = new GameView(this, sensorEventListener);
 
