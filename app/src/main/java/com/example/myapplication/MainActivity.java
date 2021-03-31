@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent gravity = new Intent(MainActivity.this, GameActivity.class);
-                gravity.putExtra("Sensor",SensorType.Gravity.toString());
+//                gravity.putExtra("Sensor", SensorType.Gravity.toString());
+                gravity.putExtra("Sensor", SensorType.Gravity);
                 startActivity(gravity);
             }
         });
@@ -39,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent gyroscope = new Intent(MainActivity.this, GameActivity.class);
-                gyroscope.putExtra("Sensor",SensorType.Gyroscope.toString());
+//                gyroscope.putExtra("Sensor", SensorType.Gyroscope.toString());
+                gyroscope.putExtra("Sensor", SensorType.Gyroscope);
                 startActivity(gyroscope);
             }
         });

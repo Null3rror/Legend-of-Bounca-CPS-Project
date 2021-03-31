@@ -3,6 +3,9 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Point;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.content.Intent;
@@ -14,9 +17,19 @@ import com.example.cpsapp.GameView;
 
 import coreModule.GameObject;
 
-public class GameActivity extends AppCompatActivity {
+import android.hardware.SensorEventListener;
+import coreModule.Constants.*;
+
+public class GameActivity extends AppCompatActivity implements SensorEventListener {
 
     private GameView gameView;
+    private Sensor sensor;
+    private SensorType sensorType;
+    private SensorManager sensorManage;
+    private SensorEventListener sensorEventListener;
+    private float timestamp;
+    private float deltaT;
+    private float d1, d2, d3;
 
 
     @Override
@@ -35,7 +48,9 @@ public class GameActivity extends AppCompatActivity {
         setContentView(gameView);
 
         Intent intent = getIntent();
-        String sensor = intent.getStringExtra("Sensor");
+        sensorType = (SensorType) intent.getExtras().get(("Sensor"));
+//        SensorType sensorType = sensor.equals("Gyroscope") ? SensorType.Gyroscope : SensorType.Gravity;
+        initSensor();
         //System.out.println(sensor);
     }
 
@@ -55,5 +70,35 @@ public class GameActivity extends AppCompatActivity {
         onStop();
         Intent mainActivity = new Intent(GameActivity.this, MainActivity.class);
         startActivity(mainActivity);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        deltaT = (event.timestamp - timestamp) * ns2s;
+        if (timestamp != 0) {
+            if (sensorType.equals(SensorType.Gyroscope)) {
+                d1 = event.values[0];
+                d2 = event.values[1];
+                d3 = event.values[2];
+            }
+            else {
+                d1 = event.values[0];
+                d2 = event.values[1];
+                d3 = event.values[2];
+            }
+        }
+        timestamp = event.timestamp;
+    }
+
+    protected void initSensor() {
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        if (sensorType.equals(SensorType.Gyroscope)) {
+            sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
+        } else {
+            sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
+        }
+
     }
 }

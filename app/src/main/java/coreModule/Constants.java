@@ -16,5 +16,6 @@ public class Constants {
 
     public static final String ballTag = "ball";
     public static final String borderTag = "border";
+    public static final float ns2s = 1.0f / 1000000000.0f;
 
 }
