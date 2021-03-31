@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.hardware.SensorEventListener;
 import android.view.SurfaceView;
 
 import java.util.Collections;
@@ -13,6 +14,7 @@ import coreModule.Constants;
 import coreModule.GameObject;
 import gameObjects.Ball;
 import gameObjects.GameBorder;
+import sensor.SensorBase;
 
 
 public class GameView extends SurfaceView implements Runnable {
@@ -21,10 +23,11 @@ public class GameView extends SurfaceView implements Runnable {
     private GameObject ball;
     private Paint paint;
     private GameObject border;
+    private SensorBase sensorEventListener;
 
-
-    public GameView(Context context) {
+    public GameView(Context context, SensorBase sensorEventListener) {
         super(context);
+        this.sensorEventListener = sensorEventListener;
         ball = new Ball(Constants.ballRadius,
                 Constants.ballMass,
                 (GameBorder.GetScreenWidth() / 14 ) + RandomNumberGenerator(20 , (int)(GameBorder.GetScreenWidth() * 0.75)),
@@ -48,6 +51,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void Update() {
+        System.out.println(sensorEventListener.GetData());
         for (GameObject object:
              GameObject.gameObjects) {
             object.Update();

@@ -2,40 +2,32 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.content.Intent;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.example.SensorType;
 import com.example.cpsapp.GameView;
 
-import coreModule.Constants;
 import coreModule.GameObject;
+import sensor.GravitySensor;
+import sensor.GyroscopeSensor;
+import sensor.SensorBase;
 
 import android.hardware.SensorEventListener;
-import coreModule.Constants.*;
 
-import static android.content.Context.SENSOR_SERVICE;
-import static androidx.core.content.ContextCompat.getSystemService;
-
-public class GameActivity extends Activity {
+public class GameActivity extends AppCompatActivity {
 
     private GameView gameView;
     private Sensor sensor;
     private SensorType sensorType;
     private SensorManager sensorManager;
-    private SensorEventListener sensorEventListener;
-    private float timestamp;
-    private float deltaT;
-    private float d1, d2, d3;
+    private SensorBase sensorEventListener;
+
 
 
     @Override
@@ -43,23 +35,34 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         GameObject.gameObjects.clear();
-        System.out.println("Game Activity on create");
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
 
-        gameView = new GameView(this);
-
-        setContentView(gameView);
 
         Intent intent = getIntent();
         sensorType = (SensorType) intent.getExtras().get(("Sensor"));
-//        SensorType sensorType = sensor.equals("Gyroscope") ? SensorType.Gyroscope : SensorType.Gravity;
-        initSensor();
-        //System.out.println(sensor);
-//        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        InstantiateSensor();
+        
+
+        gameView = new GameView(this, sensorEventListener);
+
+        setContentView(gameView);
+
+
+    }
+
+    private void InstantiateSensor() {
+        if (sensorType.equals(SensorType.Gyroscope)) {
+            sensorEventListener = new GyroscopeSensor(sensorManager);
+        }
+        else if (sensorType.equals(SensorType.Gravity)) {
+            sensorEventListener = new GravitySensor(sensorManager);
+        }
     }
 
     @Override
@@ -80,33 +83,4 @@ public class GameActivity extends Activity {
         startActivity(mainActivity);
     }
 
-//    @Override
-//    public void onSensorChanged(SensorEvent event) {
-//        deltaT = (event.timestamp - timestamp) * Constants.ns2s;
-//        if (timestamp != 0) {
-//            if (sensorType.equals(SensorType.Gyroscope)) {
-//                d1 = event.values[0];
-//                d2 = event.values[1];
-//                d3 = event.values[2];
-//            }
-//            else {
-//                d1 = event.values[0];
-//                d2 = event.values[1];
-//                d3 = event.values[2];
-//            }
-//        }
-//        timestamp = event.timestamp;
-//    }
-
-    protected void initSensor() {
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        if (sensorType.equals(SensorType.Gyroscope)) {
-            sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-            sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_FASTEST);
-        } else {
-            sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-            sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_FASTEST);
-        }
-
-    }
 }
