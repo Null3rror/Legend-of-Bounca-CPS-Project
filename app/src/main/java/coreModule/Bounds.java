@@ -2,6 +2,17 @@ package coreModule;
 
 public class Bounds {
     public Vector2 center;
+
+    public Vector2 GetMin() {
+        UpdateMinMax();
+        return min;
+    }
+
+    public Vector2 GetMax() {
+        UpdateMinMax();
+        return max;
+    }
+
     public Vector2 min;
     public Vector2 max;
     public Vector2 size;
@@ -28,7 +39,7 @@ public class Bounds {
                 other.max.y <= max.y;
     }
 
-    public Vector2 CalculateHitPointNormal(Bounds other) {
+    public Vector2 HasHitHorOrVer(Bounds other) {
         Vector2 normal = Vector2.Zero();
 
         if(other.min.x <= min.x || other.max.x >= max.x)  //left , right
@@ -48,4 +59,22 @@ public class Bounds {
             min.y       < other.max.y &&
             other.min.y < max.y;
     }
+    public Vector2 CalculateHitPointNormal(Bounds other) {
+        Vector2 normal = Vector2.Zero();
+
+        if(other.min.x <= min.x)  //left
+            normal.Set(1, normal.y);
+        if(other.max.x >= max.x)  // right
+            normal.Set(-1, normal.y);
+
+        if(other.min.y <= min.y) //top
+            normal.Set(normal.x, 1);
+        if(other.max.y >= max.y) //bottom
+            normal.Set(normal.x, -1);
+
+        return normal;
+    }
 }
+
+
+    

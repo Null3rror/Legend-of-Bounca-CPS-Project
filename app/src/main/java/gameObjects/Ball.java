@@ -3,7 +3,6 @@ package gameObjects;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.widget.ImageView;
 
 import com.example.SpriteType;
 
@@ -14,9 +13,8 @@ import components.Sprite;
 import components.Transform;
 import components.collision.BoxCollider;
 import components.collision.Collider;
-import coreModule.Bounds;
+import coreModule.Constants;
 import coreModule.GameObject;
-import coreModule.Time;
 import coreModule.Vector2;
 
 public class Ball extends GameObject {
@@ -49,8 +47,31 @@ public class Ball extends GameObject {
 
     @Override
     public void OnCollisionEnter(Collider other) {
+        Vector2 hasHitHorOrVer = other.bounds.HasHitHorOrVer(collider.bounds);
         Vector2 hitNormal = other.bounds.CalculateHitPointNormal(collider.bounds);
-        rigidBody.Bounce(hitNormal);
+        rigidBody.Bounce(hasHitHorOrVer);
+
+        if (hitNormal.y == -1 ){ //bottom
+            Vector2 t2 = other.bounds.GetMax();
+            transform.position.y = t2.y - Constants.borderThickness;
+            System.out.println(String.format("bottom t2: %f y: %f"  , t2.y , transform.position.y));
+        }
+        else if (hitNormal.y == 1 ){ //top
+            Vector2 t2 = other.bounds.GetMin();
+            transform.position.y = t2.y + Constants.borderThickness;
+            System.out.println(String.format("top t2: %f y: %f"  , t2.y , transform.position.y));
+        }
+        if (hitNormal.x == -1 ){ //right
+            Vector2 t2 = other.bounds.GetMax();
+            transform.position.x = t2.x - Constants.borderThickness;
+            System.out.println(String.format("right t2: %f y: %f"  , t2.x , transform.position.y));
+        }
+        else if (hitNormal.x == 1 ){ //left
+            Vector2 t2 = other.bounds.GetMin();
+            transform.position.x = t2.x + Constants.borderThickness;
+            System.out.println(String.format("left t2: %f y: %f"  , t2.x , transform.position.y));
+        }
+
     }
 
 

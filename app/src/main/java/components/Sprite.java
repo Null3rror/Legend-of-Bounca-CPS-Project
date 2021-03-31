@@ -40,7 +40,7 @@ public class Sprite {
                 RectF innerRectF = GetInnerRect();
                 canvas.drawRoundRect(GetOuterRect(innerRectF), 30f, 30f, paint);
                 paint.setColor(Color.LTGRAY);
-                canvas.drawRoundRect(innerRectF, 30f, 30f, paint);
+                canvas.drawRoundRect(innerRectF, 0f, 0f, paint);
 
             }
         }

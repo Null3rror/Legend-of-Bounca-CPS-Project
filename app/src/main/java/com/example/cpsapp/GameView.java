@@ -27,8 +27,7 @@ public class GameView extends SurfaceView implements Runnable {
         super(context);
         ball = new Ball(Constants.ballRadius,
                 Constants.ballMass,
-                (GameBorder.GetScreenWidth() / 14 ) + RandomNumberGenerator(20 , (int)(GameBorder.GetScreenWidth() * 0.75)),
-                (GameBorder.GetScreenHeight() / 7 ) + RandomNumberGenerator(20 , (int)(GameBorder.GetScreenHeight() * 0.75)),
+                GameBorder.GetScreenWidth()/2,GameBorder.GetScreenHeight()/2,
                 Constants.ballTag,
                 Collections.singletonList(Constants.borderTag));
         border = new GameBorder(Constants.borderTag, null);
