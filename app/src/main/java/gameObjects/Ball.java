@@ -31,6 +31,7 @@ public class Ball extends GameObject {
 
     @Override
     public void Update() {
+//        System.out.println("Ball pos:" + transform.position);
         collider.Update();
         rigidBody.Update();
     }

@@ -49,16 +49,7 @@ public class Bounds {
                 other.max.y <= max.y;
     }
 
-//    public Vector2 HasHitHorOrVer(Bounds other) {
-////        Vector2 normal = Vector2.Zero();
-////
-////        if(other.min.x <= min.x || other.max.x >= max.x)  //left , right
-////            normal = normal.Sum(Rotation(offsetRotationLeft));
-////        if(other.min.y <= min.y || other.max.y >= max.y) //top , bottom
-////            normal = normal.Sum(Rotation(offsetRotationTop));
-//
-//        return CalculateHitPointNormal(other);
-//    }
+
 
     public boolean Intersects(Bounds other) {
         UpdateMinMax();
@@ -72,7 +63,39 @@ public class Bounds {
 
     private Vector2 CalculateNormal(float angle) {
         float angleInRadian = (float)Math.toRadians(angle);
-        return new Vector2((float)-Math.sin(angleInRadian), (float)Math.cos(angleInRadian));
+        System.out.println("Angle in radian: " + angleInRadian);
+        Vector2 normal = new Vector2(-(float)Math.sin(angleInRadian), -(float)Math.cos(angleInRadian));
+        System.out.println("Normal in normal: " + normal + " mag: " + normal.Magnitude());
+        return normal;
+    }
+
+    public float GetCollidingEdgeAngle(Bounds other) {
+        UpdateMinMax();
+        other.UpdateMinMax();
+        float angle = other.collider.gameObject.transform.rotation;
+
+        if(other.min.x >= min.x)  //left
+        {
+            System.out.println("Left Andf");
+            angle += Constants.leftAngle;
+        }
+        if(other.max.x <= max.x)  // right
+        {
+                        System.out.println("right Andf");
+            angle += Constants.rightAngle;
+        }
+
+        if(other.min.y >= min.y) //top
+        {
+                        System.out.println("top Andf");
+            angle += Constants.ceilAngle;
+        }
+        if(other.max.y <= max.y) //bottom
+        {
+                        System.out.println("bottom Andf");
+            angle += Constants.floorAngle;
+        }
+        return angle;
     }
 
 
@@ -81,16 +104,25 @@ public class Bounds {
         other.UpdateMinMax();
         float angle = other.collider.gameObject.transform.rotation;
         Vector2 normal = Vector2.Zero();
-
-        if(other.min.x <= min.x)  //left
+        System.out.println("Angle: " + angle);
+        if(other.min.x >= min.x) {  //left
+            System.out.println("Left");
             normal = normal.Sum(CalculateNormal(Constants.leftAngle + angle));
-        if(other.max.x >= max.x)  // right
+        }
+        if(other.max.x <= max.x) {  // right
+            System.out.println("Right");
             normal = normal.Sum(CalculateNormal(Constants.rightAngle + angle));
+        }
 
-        if(other.min.y <= min.y) //top
+        if(other.min.y >= min.y) {//top
+            System.out.println("Top");
             normal = normal.Sum(CalculateNormal(Constants.ceilAngle + angle));
-        if(other.max.y >= max.y) //bottom
+        }
+        if(other.max.y <= max.y) {//bottom
+            System.out.println("Bottom");
             normal = normal.Sum(CalculateNormal(Constants.floorAngle + angle));
+        }
+
 
         return normal;
     }

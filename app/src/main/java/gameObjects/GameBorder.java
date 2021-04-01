@@ -18,13 +18,12 @@ import coreModule.Vector2;
 
 
 public class GameBorder extends GameObject {
-    private float angle;
     private Sprite sprite;
 
 
     public GameBorder(String tag, List<String> tagsToCheckCollisionWith){
         super(tag, tagsToCheckCollisionWith);
-        angle = 0f;
+
         this.transform = new Transform();
 
         int offsetX = GetScreenWidth() / 5;

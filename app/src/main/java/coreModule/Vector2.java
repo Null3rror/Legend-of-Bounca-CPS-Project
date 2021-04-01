@@ -25,10 +25,10 @@ public class Vector2 {
         return (float)Math.sqrt(SqrMagnitude());
     }
 
-    public void Normalize() {
+    public Vector2 Normalize() {
         float magnitude = Magnitude();
 
-        ScalarDivide(magnitude);
+        return new Vector2(x / magnitude, y /magnitude);
     }
 
 
