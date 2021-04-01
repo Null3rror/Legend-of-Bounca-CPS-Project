@@ -14,16 +14,16 @@ import components.Transform;
 import components.collision.BoxCollider;
 import coreModule.Constants;
 import coreModule.GameObject;
+import coreModule.Vector2;
 
 
 public class GameBorder extends GameObject {
-    private float angle;
     private Sprite sprite;
 
 
     public GameBorder(String tag, List<String> tagsToCheckCollisionWith){
         super(tag, tagsToCheckCollisionWith);
-        angle = 0f;
+
         this.transform = new Transform();
 
         int offsetX = GetScreenWidth() / 5;
@@ -33,7 +33,6 @@ public class GameBorder extends GameObject {
         this.transform.size.Set(sizeX, sizeY);
 
         this.transform.position.Set(GetScreenWidth() >> 1, GetScreenHeight() >> 1);
-
         this.collider = new BoxCollider(this, transform.position, transform.size);
         this.sprite = new Sprite(this, SpriteType.Board);
     }

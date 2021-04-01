@@ -25,10 +25,10 @@ public class Vector2 {
         return (float)Math.sqrt(SqrMagnitude());
     }
 
-    public void Normalize() {
+    public Vector2 Normalize() {
         float magnitude = Magnitude();
 
-        ScalarDivide(magnitude);
+        return new Vector2(x / magnitude, y /magnitude);
     }
 
 
@@ -39,12 +39,20 @@ public class Vector2 {
         y /= scalar;
     }
 
-    public Vector2 DotProduct(Vector2 other){ return new Vector2(x * other.x, y * other.y); }
+    public Vector2 ElementWiseProduct(Vector2 other){ return new Vector2(x * other.x, y * other.y); }
+    public float DotProduct(Vector2 other) {
+        return x * other.x + y * other.y;
+    }
     public Vector2 Sum(Vector2 other){ return new Vector2(x + other.x, y + other.y); }
-    public Vector2 ScalarProduct(float scalar){ return DotProduct(new Vector2(scalar, scalar)); }
+    public Vector2 ScalarProduct(float scalar){ return ElementWiseProduct(new Vector2(scalar, scalar)); }
 
 
-
+    public Vector2 Rotate(float angle) {
+        double angleInRadian = Math.toRadians(angle);
+        double newX = x * Math.cos(angleInRadian) - y * Math.sin(angleInRadian);
+        double newY = x * Math.sin(angleInRadian) + y * Math.cos(angleInRadian);
+        return new Vector2((float) newX, (float) newY);
+    }
 
 
     @Override
