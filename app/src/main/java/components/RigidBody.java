@@ -17,6 +17,13 @@ public class RigidBody {
     private float collidedEdgeAngle;
     private boolean hasCollided;
 
+
+    private Vector2 lastVelocity;
+    private Vector2 lastPosition;
+    private Vector2 lastMax;
+
+
+
     public RigidBody(float mass, GameObject gameObject) {
         this.mass = mass;
         this.velocity = Vector2.Zero();
@@ -27,7 +34,12 @@ public class RigidBody {
         this.hasCollided = false;
     }
 
-    public void Update() { // TODO: to private
+    public void Update() {
+        lastVelocity = new Vector2(velocity);
+        lastPosition = new Vector2(gameObject.transform.position);
+        lastMax = new Vector2(gameObject.collider.bounds.GetMax());
+
+
         float angle = gameObject.transform.rotation;
         float angleInRadian = (float)Math.toRadians(angle);
         float g = Constants.g;
@@ -35,8 +47,8 @@ public class RigidBody {
         force.Set(mass * g * (float)Math.sin(angleInRadian),
                   mass * g * (float)Math.cos(angleInRadian));
 
-        HandleSlope();
-
+//        HandleSlope();
+        System.out.println("notMoving: " + IsNotMoving() + " velocity: " + velocity + " velocityMagnitude: " + velocity.Magnitude());
         UpdateAcceleration();
         UpdateObjectPosition();
         UpdateVelocity();
@@ -51,7 +63,7 @@ public class RigidBody {
 
         float g = Constants.g;
         notMoving = IsNotMoving();
-        System.out.println("notMoving: " + notMoving + " velocity: " + velocity + " velocityMagnitude: " + velocity.Magnitude());
+        System.out.println("notMoving: " + IsNotMoving() + " velocity: " + velocity + " velocityMagnitude: " + velocity.Magnitude());
 
         if (!notMoving) {
             float thetaInRadian   = (float)Math.toRadians(collidedEdgeAngle);
@@ -77,12 +89,12 @@ public class RigidBody {
 
     private void ApplyDynamicFriction(float fN) {
         float fDynamicFriction = fN * Constants.kineticFrictionCoefficient;
-        Vector2 moveDirection = velocity.Normalize();
-        Vector2 friction = moveDirection.ScalarProduct(fDynamicFriction);
-        force.Set(
-                force.x + -Math.signum(velocity.x) * friction.x,
-                force.y + -Math.signum(velocity.y) * friction.y
-        );
+//        Vector2 moveDirection = velocity.Normalize();
+//        Vector2 friction = moveDirection.ScalarProduct(fDynamicFriction);
+//        force.Set(
+//                force.x + -Math.signum(velocity.x) * friction.x,
+//                force.y + -Math.signum(velocity.y) * friction.y
+//        );
     }
 
 
@@ -97,17 +109,19 @@ public class RigidBody {
 
     private void UpdateAcceleration() {
         acceleration.Set(
-                force.x / mass * Constants.accelerationMultiplier,
-                force.y / mass * Constants.accelerationMultiplier
+                (force.x / mass) * Constants.accelerationMultiplier,
+                (force.y / mass) * Constants.accelerationMultiplier
         );
     }
 
     private void UpdateVelocity() {
         float deltaTime = Time.DeltaTime();
+        System.out.print("Update Velocity: before: " + velocity);
         velocity.Set(
                 acceleration.x * deltaTime + velocity.x,
                 acceleration.y * deltaTime + velocity.y
         );
+        System.out.println(" Update Velocity: after: " + velocity);
     }
 
     private void UpdateObjectPosition() {
@@ -122,14 +136,14 @@ public class RigidBody {
     public void HandleCollision(Collider other) {
         hasCollided = true;
         collidedEdgeAngle = gameObject.collider.bounds.GetCollidingEdgeAngle(other.bounds) % 360;
-        Bounce(other);
         UpdatePositionAfterCollision(other);
-//        System.out.println(
-//                "ball pos: " + gameObject.transform.position + " ball center:" + gameObject.collider.bounds.center + "\n" +
-//                        "ball min: " + gameObject.collider.bounds.GetMin() + " ball max: " + gameObject.collider.bounds.GetMax() + "\n" +
-//                        "box pos: " + other.gameObject.transform.position + " box center:" + other.bounds.center + "\n" +
-//                        "box min: " + other.bounds.GetMin() + " box max: " + other.bounds.GetMax() + "\n"
-//        );
+        Bounce(other);
+        System.out.println(
+                "ball pos: " + gameObject.transform.position + " ball center:" + gameObject.collider.bounds.center + "\n" +
+                        "ball min: " + gameObject.collider.bounds.GetMin() + " ball max: " + gameObject.collider.bounds.GetMax() + "\n" +
+                        "box pos: " + other.gameObject.transform.position + " box center:" + other.bounds.center + "\n" +
+                        "box min: " + other.bounds.GetMin() + " box max: " + other.bounds.GetMax() + "\n"
+        );
     }
 
     private void UpdatePositionAfterCollision(Collider other) {
@@ -137,55 +151,42 @@ public class RigidBody {
         Vector2 max = gameObject.collider.bounds.GetMax();
         Vector2 otherMin = other.bounds.GetMin();
         Vector2 otherMax = other.bounds.GetMax();
-        if (max.y > otherMax.y) {
+        float h = 0;
+        if (max.y > otherMax.y) { // bottom v.y
+            h = Math.abs(lastMax.y - otherMax.y);
+            velocity.y = Math.signum (lastVelocity.y) * (float) Math.sqrt(Math.pow(lastVelocity.y, 2) + 2 * acceleration.y * h);
             gameObject.transform.position.Set(gameObject.transform.position.x, otherMax.y - gameObject.collider.bounds.size.y / 2);
         }
-        if (min.y < otherMin.y) {
+        if (min.y < otherMin.y) { // top v.y
+            h = otherMin.y - min.y;
+//            velocity.y = Math.signum (velocity.y) * (float) Math.sqrt(Math.pow(velocity.y, 2) - 2 * acceleration.y * h);
             gameObject.transform.position.Set(gameObject.transform.position.x, otherMin.y + gameObject.collider.bounds.size.y / 2);
         }
-        if (max.x > otherMax.x) {
+        if (max.x > otherMax.x) { // right v.x
+            h = max.x - otherMax.x;
+//            velocity.x = Math.signum (velocity.x) * (float) Math.sqrt(Math.pow(velocity.x, 2) - 2 * acceleration.x * h);
             gameObject.transform.position.Set(otherMax.x - gameObject.collider.bounds.size.x / 2, gameObject.transform.position.y);
         }
-        if (min.y < otherMin.y) {
+        if (min.x < otherMin.x) { // left v.x
+            h = otherMin.x - min.x;
+//            velocity.x = Math.signum (velocity.x) * (float) Math.sqrt(Math.pow(velocity.x, 2) - 2 * acceleration.x * h);
             gameObject.transform.position.Set(otherMax.x + gameObject.collider.bounds.size.x / 2, gameObject.transform.position.y);
         }
         gameObject.collider.bounds.Update(gameObject.transform.position, gameObject.collider.bounds.size);
     }
 
 
-//    public void Update() {
-//        Vector2 v0 = new Vector2(this.velocity);
-//        Vector2 p0 = new Vector2(gameObject.transform.position);
-//        // sensor got angle
-////        System.out.println("--> " + velocity.x + ",--> " + velocity.y + " --> " + isFalling);
-//        angle = Math.toRadians(60);
-//        this.acceleration.Set(g * (float)Math.sin(Math.toRadians(angle)), g * (float)Math.cos(Math.toRadians(angle)));
-//        if (isFalling) {
-//
-//            velocity.Set(acceleration.x * Time.DeltaTime() + v0.x, acceleration.y * Time.DeltaTime() + v0.y);
-//            gameObject.transform.position.Set(Time.DeltaTime() * 0.5f * (velocity.x + v0.x) + p0.x, Time.DeltaTime() * 0.5f * (velocity.y + v0.y) + p0.y);  // p = t/2(v + v0) + p0 = t/2(gt + v0 + v0) + p0 = t/2(gt + 2v0) + p0 = 1/2gt^2 + v0t + p0
-//        }
-//        else {
-//            if (Constants.staticFrictionCoefficient * Math.cos(angle) < Math.sin(angle)){
-//                acceleration.Set((float) ( g * (Math.sin(angle) - Constants.kineticFrictionCoefficient * Math.cos(angle))) , 0);
-//                velocity.Set(acceleration.x * Time.DeltaTime() + velocity.x  , 0);
-//                gameObject.transform.position.Set(Time.DeltaTime() * 0.5f * (velocity.x + v0.x) + p0.x , p0.y) ;
-//            }
-//            else {
-//                this.velocity = Vector2.Zero();
-//                this.acceleration = Vector2.Zero();
-//            }
-//        }
-//    }
 
     public void Bounce(Collider other) {
         Vector2 normal = gameObject.collider.bounds.CalculateHitPointNormal(other.bounds);
 //        System.out.println("normal: " + normal);
-        float dot = normal.DotProduct(velocity);
+        float dot = normal.DotProduct(velocity); // dot = -velocity.y
+        System.out.print("Bounce: before: " + velocity);
         velocity.Set(
                 velocity.x - 2 * dot * normal.x,
                 velocity.y - 2 * dot * normal.y
         );
+        System.out.println(" Bounce: after: " + velocity);
         ApplyEnergyLoss();
     }
 
@@ -198,13 +199,4 @@ public class RigidBody {
         System.out.println("Applying energy loss: velocity before: " + oldVelocity + " after: " + velocity);
 
     }
-
-//    private void CheckBallMovementStatus(Vector2 hitNormal) { // (0, -1)
-//        if(Math.abs(velocity.y) < Constants.velocityThreshold && IsFloorNormal(hitNormal))
-//            isFalling = false;
-//    }
-
-//    private boolean IsFloorNormal(Vector2 hitNormal){
-//        return true;
-//    }
 }

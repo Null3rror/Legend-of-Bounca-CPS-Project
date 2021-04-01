@@ -63,9 +63,9 @@ public class Bounds {
 
     private Vector2 CalculateNormal(float angle) {
         float angleInRadian = (float)Math.toRadians(angle);
-        System.out.println("Angle in radian: " + angleInRadian);
+//        System.out.println("Angle in radian: " + angleInRadian);
         Vector2 normal = new Vector2(-(float)Math.sin(angleInRadian), -(float)Math.cos(angleInRadian));
-        System.out.println("Normal in normal: " + normal + " mag: " + normal.Magnitude());
+//        System.out.println("Normal in normal: " + normal + " mag: " + normal.Magnitude());
         return normal;
     }
 
@@ -76,23 +76,23 @@ public class Bounds {
 
         if(other.min.x >= min.x)  //left
         {
-            System.out.println("Left Andf");
+//            System.out.println("Left Andf");
             angle += Constants.leftAngle;
         }
         if(other.max.x <= max.x)  // right
         {
-                        System.out.println("right Andf");
+//                        System.out.println("right Andf");
             angle += Constants.rightAngle;
         }
 
         if(other.min.y >= min.y) //top
         {
-                        System.out.println("top Andf");
+//                        System.out.println("top Andf");
             angle += Constants.ceilAngle;
         }
         if(other.max.y <= max.y) //bottom
         {
-                        System.out.println("bottom Andf");
+//                        System.out.println("bottom Andf");
             angle += Constants.floorAngle;
         }
         return angle;
@@ -106,20 +106,20 @@ public class Bounds {
         Vector2 normal = Vector2.Zero();
         System.out.println("Angle: " + angle);
         if(other.min.x >= min.x) {  //left
-            System.out.println("Left");
+//            System.out.println("Left");
             normal = normal.Sum(CalculateNormal(Constants.leftAngle + angle));
         }
         if(other.max.x <= max.x) {  // right
-            System.out.println("Right");
+//            System.out.println("Right");
             normal = normal.Sum(CalculateNormal(Constants.rightAngle + angle));
         }
 
         if(other.min.y >= min.y) {//top
-            System.out.println("Top");
+//            System.out.println("Top");
             normal = normal.Sum(CalculateNormal(Constants.ceilAngle + angle));
         }
         if(other.max.y <= max.y) {//bottom
-            System.out.println("Bottom");
+//            System.out.println("Bottom");
             normal = normal.Sum(CalculateNormal(Constants.floorAngle + angle));
         }
 
