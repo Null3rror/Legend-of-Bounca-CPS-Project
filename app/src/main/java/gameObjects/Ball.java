@@ -47,9 +47,8 @@ public class Ball extends GameObject {
 
     @Override
     public void OnCollisionEnter(Collider other) {
-        Vector2 hasHitHorOrVer = other.bounds.HasHitHorOrVer(collider.bounds);
         Vector2 hitNormal = other.bounds.CalculateHitPointNormal(collider.bounds);
-        rigidBody.Bounce(hasHitHorOrVer);
+        rigidBody.Bounce(hitNormal);
 
         if (hitNormal.y == -1 ){ //bottom
             Vector2 t2 = other.bounds.GetMax();
