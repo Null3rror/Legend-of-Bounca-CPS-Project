@@ -22,6 +22,7 @@ public class RigidBody {
     private Vector2 lastPosition;
     private Vector2 lastMax;
     private Vector2 lastMin;
+    private boolean isOnSlope;
 
 
     public RigidBody(float mass, GameObject gameObject) {
@@ -47,15 +48,15 @@ public class RigidBody {
         force.Set(mass * g * (float)Math.sin(angleInRadian),
                   mass * g * (float)Math.cos(angleInRadian));
 
-//        HandleSlope();
+        HandleSlope();
 
-        System.out.println("notMoving: " + IsNotMoving() + " velocity: " + velocity + " velocityMagnitude: " + velocity.Magnitude());
+//        System.out.println("notMoving: " + is + " velocity: " + velocity + " velocityMagnitude: " + velocity.Magnitude());
         UpdateAcceleration();
         UpdateObjectPosition();
         UpdateVelocity();
 
 
-        collidedEdgeAngle = 90.0f;
+        collidedEdgeAngle = 0.0f;
         hasCollided = false;
     }
 
@@ -64,25 +65,27 @@ public class RigidBody {
 
         float g = Constants.g;
         notMoving = IsNotMoving();
-        System.out.println("notMoving: " + IsNotMoving() + " velocity: " + velocity + " velocityMagnitude: " + velocity.Magnitude());
+        System.out.println("notMoving: " + notMoving + " velocity: " + velocity + " velocityMagnitude: " + velocity.Magnitude());
 
-        if (!notMoving) {
-            float thetaInRadian   = (float)Math.toRadians(collidedEdgeAngle);
-            float fN              = mass * (float)Math.cos(thetaInRadian) * g;
-            float fStaticFriction = fN * Constants.staticFrictionCoefficient;
+        if (notMoving) {
+            isOnSlope = true;
+        }
 
-            System.out.println("collidedAngle " + collidedEdgeAngle + " staticF: " + fStaticFriction + " force: " + force + " forcemag: " + force.Magnitude());
-            if (CanSlideOnSlope(fStaticFriction, force)) {
+
+        if (isOnSlope) {
+//            float thetaInRadian   = (float)Math.toRadians(collidedEdgeAngle);
+//            float fN              = mass * (float)Math.cos(thetaInRadian) * g;
+//            float fStaticFriction = fN * Constants.staticFrictionCoefficient;
+//
+//            System.out.println("collidedAngle " + collidedEdgeAngle + " staticF: " + fStaticFriction + " force: " + force + " forcemag: " + force.Magnitude());
+//            if (CanSlideOnSlope(fStaticFriction, force)) {
 //                ApplyDynamicFriction(fN);
-            }
-            else {
-                force.Set(0.0f, 0.0f);
-            }
+//            }
+//            else {
+//                force.Set(0.0f, 0.0f);
+//            }
         }
-        else {
-            force.Set(0,0);
-//            velocity.Set(0,0);
-        }
+
 
 
 
@@ -90,12 +93,14 @@ public class RigidBody {
 
     private void ApplyDynamicFriction(float fN) {
         float fDynamicFriction = fN * Constants.kineticFrictionCoefficient;
-//        Vector2 moveDirection = velocity.Normalize();
-//        Vector2 friction = moveDirection.ScalarProduct(fDynamicFriction);
-//        force.Set(
-//                force.x + -Math.signum(velocity.x) * friction.x,
-//                force.y + -Math.signum(velocity.y) * friction.y
-//        );
+        Vector2 moveDirection = velocity.Normalize();
+        Vector2 friction = moveDirection.ScalarProduct(fDynamicFriction);
+        System.out.print("FN : " + fN + " Dynamic Friction: " + friction);
+        force.Set(
+                force.x - friction.x,
+                force.y - friction.y
+        );
+        System.out.println(" After Dynamic friction: " + force);
     }
 
 
@@ -109,10 +114,12 @@ public class RigidBody {
     }
 
     private void UpdateAcceleration() {
+        System.out.print("Acceleration before: " + acceleration);
         acceleration.Set(
                 (force.x / mass) * Constants.accelerationMultiplier,
                 (force.y / mass) * Constants.accelerationMultiplier
         );
+        System.out.println(" Acceleration after: " + acceleration);
     }
 
     private void UpdateVelocity() {
@@ -137,17 +144,23 @@ public class RigidBody {
     public void HandleCollision(Collider other) {
         hasCollided = true;
         collidedEdgeAngle = gameObject.collider.bounds.GetCollidingEdgeAngle(other.bounds) % 360;
-        UpdatePositionAfterCollision(other);
-        Bounce(other);
-        System.out.println(
-                "ball pos: " + gameObject.transform.position + " ball center:" + gameObject.collider.bounds.center + "\n" +
-                        "ball min: " + gameObject.collider.bounds.GetMin() + " ball max: " + gameObject.collider.bounds.GetMax() + "\n" +
-                        "box pos: " + other.gameObject.transform.position + " box center:" + other.bounds.center + "\n" +
-                        "box min: " + other.bounds.GetMin() + " box max: " + other.bounds.GetMax() + "\n"
-        );
+
+        System.out.println("collidedAngle " + collidedEdgeAngle);
+
+
+            UpdatePositionAfterCollision(other);
+
+            Bounce(other);
+
+//        System.out.println(
+//                "ball pos: " + gameObject.transform.position + " ball center:" + gameObject.collider.bounds.center + "\n" +
+//                        "ball min: " + gameObject.collider.bounds.GetMin() + " ball max: " + gameObject.collider.bounds.GetMax() + "\n" +
+//                        "box pos: " + other.gameObject.transform.position + " box center:" + other.bounds.center + "\n" +
+//                        "box min: " + other.bounds.GetMin() + " box max: " + other.bounds.GetMax() + "\n"
+//        );
     }
 
-    private void Temp(float h) {
+    private void PullbackVelocity(float h) {
         float angle = collidedEdgeAngle;
         float angleInRadian = (float)Math.toRadians(angle);
         float hX = (float)Math.sin(angleInRadian) * h;
@@ -180,7 +193,7 @@ public class RigidBody {
             gameObject.transform.position.Set(otherMin.x + gameObject.collider.bounds.size.x / 2, gameObject.transform.position.y);
         }
         gameObject.collider.bounds.Update(gameObject.transform.position, gameObject.collider.bounds.size);
-        Temp(h);
+        PullbackVelocity(h);
     }
 
 
@@ -195,7 +208,9 @@ public class RigidBody {
                 velocity.y - 2 * dot * normal.y
         );
         System.out.println(" Bounce: after: " + velocity);
+
         ApplyEnergyLoss();
+
     }
 
     private void ApplyEnergyLoss() {

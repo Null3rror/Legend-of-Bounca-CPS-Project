@@ -22,10 +22,10 @@ public class Constants {
 
     public static final float accelerationMultiplier = 20.0f;
 
-    public static final float ceilAngle = 180f;
-    public static final float rightAngle = 90f;
+    public static final float ceilAngle = 0f;
+    public static final float rightAngle = 0f;
     public static final float floorAngle = 0f;
-    public static final float leftAngle = 270f;
+    public static final float leftAngle = 0f;
 
 
 
