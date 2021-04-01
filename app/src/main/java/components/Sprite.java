@@ -33,6 +33,15 @@ public class Sprite {
                         position.x + radius,
                         position.y + radius,
                         paint);
+                Paint.Style style = paint.getStyle();
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setColor(Color.BLACK);
+                canvas.drawRect(position.x - radius,
+                        position.y - radius,
+                        position.x + radius,
+                        position.y + radius,
+                        paint);
+                paint.setStyle(style);
             }
         }else{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

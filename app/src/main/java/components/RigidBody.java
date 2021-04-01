@@ -21,7 +21,7 @@ public class RigidBody {
     private Vector2 lastVelocity;
     private Vector2 lastPosition;
     private Vector2 lastMax;
-
+    private Vector2 lastMin;
 
 
     public RigidBody(float mass, GameObject gameObject) {
@@ -38,7 +38,7 @@ public class RigidBody {
         lastVelocity = new Vector2(velocity);
         lastPosition = new Vector2(gameObject.transform.position);
         lastMax = new Vector2(gameObject.collider.bounds.GetMax());
-
+        lastMin = new Vector2(gameObject.collider.bounds.GetMin());
 
         float angle = gameObject.transform.rotation;
         float angleInRadian = (float)Math.toRadians(angle);
@@ -48,6 +48,7 @@ public class RigidBody {
                   mass * g * (float)Math.cos(angleInRadian));
 
 //        HandleSlope();
+
         System.out.println("notMoving: " + IsNotMoving() + " velocity: " + velocity + " velocityMagnitude: " + velocity.Magnitude());
         UpdateAcceleration();
         UpdateObjectPosition();
@@ -72,7 +73,7 @@ public class RigidBody {
 
             System.out.println("collidedAngle " + collidedEdgeAngle + " staticF: " + fStaticFriction + " force: " + force + " forcemag: " + force.Magnitude());
             if (CanSlideOnSlope(fStaticFriction, force)) {
-                ApplyDynamicFriction(fN);
+//                ApplyDynamicFriction(fN);
             }
             else {
                 force.Set(0.0f, 0.0f);
@@ -146,6 +147,16 @@ public class RigidBody {
         );
     }
 
+    private void Temp(float h) {
+        float angle = collidedEdgeAngle;
+        float angleInRadian = (float)Math.toRadians(angle);
+        float hX = (float)Math.sin(angleInRadian) * h;
+        float hY = (float)Math.cos(angleInRadian) * h;
+
+        velocity.y = Math.signum(lastVelocity.y) * (float) Math.sqrt(Math.pow(lastVelocity.y, 2) + 2 * acceleration.y * hY);
+        velocity.x = Math.signum(lastVelocity.x) * (float) Math.sqrt(Math.pow(lastVelocity.x, 2) + 2 * acceleration.x * hX);
+    }
+
     private void UpdatePositionAfterCollision(Collider other) {
         Vector2 min = gameObject.collider.bounds.GetMin();
         Vector2 max = gameObject.collider.bounds.GetMax();
@@ -154,25 +165,22 @@ public class RigidBody {
         float h = 0;
         if (max.y > otherMax.y) { // bottom v.y
             h = Math.abs(lastMax.y - otherMax.y);
-            velocity.y = Math.signum (lastVelocity.y) * (float) Math.sqrt(Math.pow(lastVelocity.y, 2) + 2 * acceleration.y * h);
             gameObject.transform.position.Set(gameObject.transform.position.x, otherMax.y - gameObject.collider.bounds.size.y / 2);
         }
         if (min.y < otherMin.y) { // top v.y
-            h = otherMin.y - min.y;
-//            velocity.y = Math.signum (velocity.y) * (float) Math.sqrt(Math.pow(velocity.y, 2) - 2 * acceleration.y * h);
+            h = Math.abs(lastMin.y - otherMin.y);
             gameObject.transform.position.Set(gameObject.transform.position.x, otherMin.y + gameObject.collider.bounds.size.y / 2);
         }
         if (max.x > otherMax.x) { // right v.x
-            h = max.x - otherMax.x;
-//            velocity.x = Math.signum (velocity.x) * (float) Math.sqrt(Math.pow(velocity.x, 2) - 2 * acceleration.x * h);
+            h = Math.abs(lastMax.x - otherMax.x);
             gameObject.transform.position.Set(otherMax.x - gameObject.collider.bounds.size.x / 2, gameObject.transform.position.y);
         }
         if (min.x < otherMin.x) { // left v.x
-            h = otherMin.x - min.x;
-//            velocity.x = Math.signum (velocity.x) * (float) Math.sqrt(Math.pow(velocity.x, 2) - 2 * acceleration.x * h);
-            gameObject.transform.position.Set(otherMax.x + gameObject.collider.bounds.size.x / 2, gameObject.transform.position.y);
+            h = Math.abs(lastMin.x - otherMin.x);
+            gameObject.transform.position.Set(otherMin.x + gameObject.collider.bounds.size.x / 2, gameObject.transform.position.y);
         }
         gameObject.collider.bounds.Update(gameObject.transform.position, gameObject.collider.bounds.size);
+        Temp(h);
     }
 
 
