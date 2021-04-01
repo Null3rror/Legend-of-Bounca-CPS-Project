@@ -39,9 +39,12 @@ public class Vector2 {
         y /= scalar;
     }
 
-    public Vector2 DotProduct(Vector2 other){ return new Vector2(x * other.x, y * other.y); }
+    public Vector2 ElementWiseProduct(Vector2 other){ return new Vector2(x * other.x, y * other.y); }
+    public float DotProduct(Vector2 other) {
+        return x * other.x + y * other.y;
+    }
     public Vector2 Sum(Vector2 other){ return new Vector2(x + other.x, y + other.y); }
-    public Vector2 ScalarProduct(float scalar){ return DotProduct(new Vector2(scalar, scalar)); }
+    public Vector2 ScalarProduct(float scalar){ return ElementWiseProduct(new Vector2(scalar, scalar)); }
 
 
     public Vector2 Rotate(float angle) {

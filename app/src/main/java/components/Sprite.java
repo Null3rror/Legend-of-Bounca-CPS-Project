@@ -53,7 +53,7 @@ public class Sprite {
         int top    = (int)center.y - (int)size.y / 2;
         int right  = (int)center.x + (int)size.x / 2;
         int bottom = (int)center.y + (int)size.y / 2;
-        System.out.println(left + ", " + top + ", " + right + ", " + bottom);
+//        System.out.println(left + ", " + top + ", " + right + ", " + bottom);
 //        System.out.println(center.x + ", " + center.y + "\n" + size.x + "| " + size.y);
 
         return new RectF(left, top, right, bottom);
@@ -64,7 +64,7 @@ public class Sprite {
         int top    = (int)innerRectF.top    - Constants.borderThickness;
         int right  = (int)innerRectF.right  + Constants.borderThickness;
         int bottom = (int)innerRectF.bottom + Constants.borderThickness;
-        System.out.println(left + "| " + top + "| " + right + "| " + bottom);
+//        System.out.println(left + "| " + top + "| " + right + "| " + bottom);
 
         return new RectF(left, top, right, bottom);
     }

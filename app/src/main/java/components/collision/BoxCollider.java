@@ -8,7 +8,7 @@ import coreModule.Vector2;
 public class BoxCollider extends Collider {
     public BoxCollider(GameObject gameObject, Vector2 center, Vector2 size) {
         this.gameObject = gameObject;
-        this.bounds = new Bounds(center, size);
+        this.bounds = new Bounds(center, size, this);
     }
 
     @Override

@@ -47,8 +47,8 @@ public class Ball extends GameObject {
 
     @Override
     public void OnCollisionEnter(Collider other) {
-        Vector2 position = transform.position;
-        Vector2 min = collider.bounds.GetMin();
+//        Vector2 position = transform.position;
+//        Vector2 min = collider.bounds.GetMin();
 
 //        System.out.println(
 //                "ball pos: " + transform.position + " ball center:" + collider.bounds.center + "\n" +

@@ -21,10 +21,10 @@ public class Constants {
 
     public static final float accelerationMultiplier = 5.0f;
 
-//    public static final double offsetRotationBottom = Math.toRadians(180f);
-//    public static final double offsetRotationRight = Math.toRadians(270f);
-//    public static final double offsetRotationTop = Math.toRadians(0f);
-//    public static final double offsetRotationLeft = Math.toRadians(90f);
+    public static final float ceilAngle = 180f;
+    public static final float rightAngle = 90f;
+    public static final float floorAngle = 0f;
+    public static final float leftAngle = 270f;
 
 
 

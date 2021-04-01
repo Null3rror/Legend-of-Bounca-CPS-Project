@@ -1,7 +1,10 @@
 package coreModule;
 
+import components.collision.Collider;
+
 public class Bounds {
     public Vector2 center;
+    private Collider collider;
 
     public Vector2 GetMin() {
         UpdateMinMax();
@@ -17,7 +20,8 @@ public class Bounds {
     public Vector2 max;
     public Vector2 size;
 
-    public Bounds(Vector2 center, Vector2 size) {
+    public Bounds(Vector2 center, Vector2 size, Collider collider) {
+        this.collider = collider;
         this.center = center;
         this.max = new Vector2(center.x + size.x / 2, center.y + size.y / 2);
         this.min = new Vector2(center.x - size.x / 2, center.y - size.y / 2);
@@ -66,18 +70,27 @@ public class Bounds {
             other.min.y < max.y;
     }
 
+    private Vector2 CalculateNormal(float angle) {
+        float angleInRadian = (float)Math.toRadians(angle);
+        return new Vector2((float)-Math.sin(angleInRadian), (float)Math.cos(angleInRadian));
+    }
+
+
     public Vector2 CalculateHitPointNormal(Bounds other) {
+        UpdateMinMax();
+        other.UpdateMinMax();
+        float angle = other.collider.gameObject.transform.rotation;
         Vector2 normal = Vector2.Zero();
 
-//        if(other.min.x <= min.x)  //left
-//            normal = normal.Sum(Rotation(offsetRotationLeft));
-//        if(other.max.x >= max.x)  // right
-//            normal = normal.Sum(Rotation(offsetRotationRight));
-//
-//        if(other.min.y <= min.y) //top
-//            normal = normal.Sum(Rotation(offsetRotationTop));
-//        if(other.max.y >= max.y) //bottom
-//            normal = normal.Sum(Rotation(offsetRotationBottom));
+        if(other.min.x <= min.x)  //left
+            normal = normal.Sum(CalculateNormal(Constants.leftAngle + angle));
+        if(other.max.x >= max.x)  // right
+            normal = normal.Sum(CalculateNormal(Constants.rightAngle + angle));
+
+        if(other.min.y <= min.y) //top
+            normal = normal.Sum(CalculateNormal(Constants.ceilAngle + angle));
+        if(other.max.y >= max.y) //bottom
+            normal = normal.Sum(CalculateNormal(Constants.floorAngle + angle));
 
         return normal;
     }
