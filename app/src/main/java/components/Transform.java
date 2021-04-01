@@ -24,7 +24,7 @@ public class Transform {
         rotation = 0;
     }
 
-    public void SetRotation(float rotation){
-        this.rotation = rotation;
-    }
+
+
+
 }

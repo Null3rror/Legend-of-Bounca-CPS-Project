@@ -27,18 +27,18 @@ public class Sprite {
         if (type == Circle) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Vector2 position = gameObject.transform.position;
-                float radius     = gameObject.transform.size.x;
+                float radius     = gameObject.transform.size.x / 2;
                 canvas.drawOval(position.x - radius,
-                        position.y + radius,
-                        position.x + radius,
                         position.y - radius,
+                        position.x + radius,
+                        position.y + radius,
                         paint);
             }
         }else{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                 RectF innerRectF = GetInnerRect();
-                canvas.drawRoundRect(GetOuterRect(innerRectF), 30f, 30f, paint);
+                canvas.drawRoundRect(GetOuterRect(innerRectF), 0f, 0f, paint);
                 paint.setColor(Color.LTGRAY);
                 canvas.drawRoundRect(innerRectF, 0f, 0f, paint);
 
@@ -53,18 +53,18 @@ public class Sprite {
         int top    = (int)center.y - (int)size.y / 2;
         int right  = (int)center.x + (int)size.x / 2;
         int bottom = (int)center.y + (int)size.y / 2;
-//        System.out.println(left + ", " + top + ", " + right + ", " + bottom);
+        System.out.println(left + ", " + top + ", " + right + ", " + bottom);
 //        System.out.println(center.x + ", " + center.y + "\n" + size.x + "| " + size.y);
 
         return new RectF(left, top, right, bottom);
     }
 
     private RectF GetOuterRect(RectF innerRectF) {
-        int left   = (int)innerRectF.left   - (int)Constants.borderThickness;
-        int top    = (int)innerRectF.top    - (int)Constants.borderThickness;
-        int right  = (int)innerRectF.right  + (int)Constants.borderThickness;
-        int bottom = (int)innerRectF.bottom + (int)Constants.borderThickness;
-//        System.out.println(left + "| " + top + "| " + right + "| " + bottom);
+        int left   = (int)innerRectF.left   - Constants.borderThickness;
+        int top    = (int)innerRectF.top    - Constants.borderThickness;
+        int right  = (int)innerRectF.right  + Constants.borderThickness;
+        int bottom = (int)innerRectF.bottom + Constants.borderThickness;
+        System.out.println(left + "| " + top + "| " + right + "| " + bottom);
 
         return new RectF(left, top, right, bottom);
     }

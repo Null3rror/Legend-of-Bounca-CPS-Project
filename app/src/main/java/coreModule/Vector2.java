@@ -44,7 +44,12 @@ public class Vector2 {
     public Vector2 ScalarProduct(float scalar){ return DotProduct(new Vector2(scalar, scalar)); }
 
 
-
+    public Vector2 Rotate(float angle) {
+        double angleInRadian = Math.toRadians(angle);
+        double newX = x * Math.cos(angleInRadian) - y * Math.sin(angleInRadian);
+        double newY = x * Math.sin(angleInRadian) + y * Math.cos(angleInRadian);
+        return new Vector2((float) newX, (float) newY);
+    }
 
 
     @Override

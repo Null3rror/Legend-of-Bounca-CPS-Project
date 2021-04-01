@@ -1,11 +1,5 @@
 package coreModule;
 
-import static coreModule.Constants.Rotation;
-import static coreModule.Constants.offsetRotationBottom;
-import static coreModule.Constants.offsetRotationLeft;
-import static coreModule.Constants.offsetRotationRight;
-import static coreModule.Constants.offsetRotationTop;
-
 public class Bounds {
     public Vector2 center;
 
@@ -28,6 +22,12 @@ public class Bounds {
         this.max = new Vector2(center.x + size.x / 2, center.y + size.y / 2);
         this.min = new Vector2(center.x - size.x / 2, center.y - size.y / 2);
         this.size   = size;
+    }
+
+    public void Update(Vector2 center, Vector2 size) {
+        this.center = center;
+        this.size   = size;
+        UpdateMinMax();
     }
 
     public void UpdateMinMax() {
@@ -69,15 +69,15 @@ public class Bounds {
     public Vector2 CalculateHitPointNormal(Bounds other) {
         Vector2 normal = Vector2.Zero();
 
-        if(other.min.x <= min.x)  //left
-            normal = normal.Sum(Rotation(offsetRotationLeft));
-        if(other.max.x >= max.x)  // right
-            normal = normal.Sum(Rotation(offsetRotationRight));
-
-        if(other.min.y <= min.y) //top
-            normal = normal.Sum(Rotation(offsetRotationTop));
-        if(other.max.y >= max.y) //bottom
-            normal = normal.Sum(Rotation(offsetRotationBottom));
+//        if(other.min.x <= min.x)  //left
+//            normal = normal.Sum(Rotation(offsetRotationLeft));
+//        if(other.max.x >= max.x)  // right
+//            normal = normal.Sum(Rotation(offsetRotationRight));
+//
+//        if(other.min.y <= min.y) //top
+//            normal = normal.Sum(Rotation(offsetRotationTop));
+//        if(other.max.y >= max.y) //bottom
+//            normal = normal.Sum(Rotation(offsetRotationBottom));
 
         return normal;
     }

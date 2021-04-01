@@ -14,6 +14,7 @@ import components.Transform;
 import components.collision.BoxCollider;
 import coreModule.Constants;
 import coreModule.GameObject;
+import coreModule.Vector2;
 
 
 public class GameBorder extends GameObject {
@@ -33,7 +34,7 @@ public class GameBorder extends GameObject {
         this.transform.size.Set(sizeX, sizeY);
 
         this.transform.position.Set(GetScreenWidth() >> 1, GetScreenHeight() >> 1);
-
+//        System.out.println("center: " + transform.position + " center2:" + new Vector2(offsetX + Constants.borderThickness + sizeX / 2, offsetY + Constants.borderThickness + sizeY / 2));
         this.collider = new BoxCollider(this, transform.position, transform.size);
         this.sprite = new Sprite(this, SpriteType.Board);
     }
