@@ -4,7 +4,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.view.View;
 
 import java.util.Collections;
 import java.util.Random;
@@ -13,6 +16,7 @@ import coreModule.Constants;
 import coreModule.GameObject;
 import gameObjects.Ball;
 import gameObjects.GameBorder;
+import gameObjects.ThrowButton;
 
 
 public class GameView extends SurfaceView implements Runnable {
@@ -21,6 +25,7 @@ public class GameView extends SurfaceView implements Runnable {
     private GameObject ball;
     private Paint paint;
     private GameObject border;
+    private ThrowButton button;
 
 
     public GameView(Context context) {
@@ -31,6 +36,8 @@ public class GameView extends SurfaceView implements Runnable {
                 Constants.ballTag,
                 Collections.singletonList(Constants.borderTag));
         border = new GameBorder(Constants.borderTag, null);
+        button = new ThrowButton(Constants.buttonTag, null);
+
         //TODO ADD partab moshak button
         paint = new Paint();
     }
@@ -54,7 +61,9 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void LateUpdate() {
+//        System.out.println(button.IsButtonPress(69, 69));
         // nothing
+
     }
 
     private void Draw() {
@@ -63,6 +72,7 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawColor(Color.WHITE); // draw background g
             border.Render(canvas, paint);
             ball.Render(canvas, paint);
+            button.Render(canvas, paint);
             getHolder().unlockCanvasAndPost(canvas);
         }
 
@@ -96,4 +106,19 @@ public class GameView extends SurfaceView implements Runnable {
         return random;
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+
+        if(button.IsButtonPress(x, y)){
+            if(ball.rigidBody.CanShoot())
+                ball.rigidBody.Shoot();
+        }
+        return true;
+    }
 }
+//
+//-226.02258, 226.02258
+//        -228.94202
+//        -229.16179

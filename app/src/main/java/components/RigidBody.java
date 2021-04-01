@@ -31,7 +31,7 @@ public class RigidBody {
         Vector2 v0 = new Vector2(this.velocity);
         Vector2 p0 = new Vector2(gameObject.transform.position);
         // sensor got angle
-//        System.out.println("--> " + velocity.x + ",--> " + velocity.y + " --> " + isFalling);
+        System.out.println("--> " + velocity.x + ",--> " + velocity.y + " --> " + isFalling);
         angle = Math.toRadians(60);
         this.acceleration.Set(g * (float)Math.sin(Math.toRadians(angle)), g * (float)Math.cos(Math.toRadians(angle)));
         if (isFalling) {
@@ -70,5 +70,18 @@ public class RigidBody {
 
     private boolean IsFloorNormal(Vector2 hitNormal){
         return true;
+    }
+
+    public boolean CanShoot() {
+        if(!isFalling && velocity.Magnitude() <= Constants.velocityThreshold)
+            return true;
+
+        return false;
+    }
+
+    public void Shoot() {
+        this.acceleration.Set(g * (float)Math.sin(Math.toRadians(angle)), g * (float)Math.cos(Math.toRadians(angle)));
+        velocity.Set(acceleration.x * 25, -1 * acceleration.y * 25);
+        isFalling = true;
     }
 }

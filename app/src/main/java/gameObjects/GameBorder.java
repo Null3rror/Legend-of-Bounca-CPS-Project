@@ -44,6 +44,7 @@ public class GameBorder extends GameObject {
 
     }
 
+
     public static int GetScreenWidth() {
         return Math.max(Resources.getSystem().getDisplayMetrics().widthPixels, Resources.getSystem().getDisplayMetrics().heightPixels);
     }

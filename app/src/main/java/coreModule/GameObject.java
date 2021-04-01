@@ -12,7 +12,7 @@ import components.RigidBody;
 import components.Transform;
 import components.collision.Collider;
 
-public  class GameObject {
+public abstract class GameObject {
     public Transform transform;
     public String tag;
     public List<String> tagsToCheckCollisionWith;

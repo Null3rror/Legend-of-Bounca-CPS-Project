@@ -1,7 +1,9 @@
 package components;
 
 import android.graphics.Canvas;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Build;
@@ -12,6 +14,7 @@ import coreModule.Constants;
 import coreModule.GameObject;
 import coreModule.Vector2;
 
+import static com.example.SpriteType.Board;
 import static com.example.SpriteType.Circle;
 
 public class Sprite {
@@ -34,7 +37,7 @@ public class Sprite {
                         position.y - radius,
                         paint);
             }
-        }else{
+        }else if(type == Board){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                 RectF innerRectF = GetInnerRect();
@@ -42,9 +45,25 @@ public class Sprite {
                 paint.setColor(Color.LTGRAY);
                 canvas.drawRoundRect(innerRectF, 0f, 0f, paint);
 
+
             }
+        } else if(type == SpriteType.Button){
+
+            paint.setColor(Color.LTGRAY);
+            canvas.drawRoundRect(GetInnerRect(), 40f, 40f, paint);
+            paint.setColor(Color.BLACK);
+            paint.setTextSize(45);
+            canvas.drawText("پرتاب", gameObject.transform.position.x / 3 , gameObject.transform.position.y * 1.5f, paint);
         }
     }
+
+//    private Matrix SetPosition(float x, float y) {
+//        Matrix btn_matrix = new Matrix();
+//        btn_matrix.setTranslate(x, y);
+//        btn_matrix.mapRect(GetInnerRect());
+//
+//        return btn_matrix;
+//    }
 
     private RectF GetInnerRect() {
         Vector2 center = gameObject.transform.position;
