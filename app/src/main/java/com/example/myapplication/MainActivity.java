@@ -15,9 +15,6 @@ import com.example.SensorType;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView ballSprite;
-    private GameView gameView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent gravity = new Intent(MainActivity.this, GameActivity.class);
-                gravity.putExtra("Sensor",SensorType.Gravity.toString());
+                gravity.putExtra("Sensor", SensorType.Gravity);
                 startActivity(gravity);
             }
         });
@@ -39,20 +36,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent gyroscope = new Intent(MainActivity.this, GameActivity.class);
-                gyroscope.putExtra("Sensor",SensorType.Gyroscope.toString());
+                gyroscope.putExtra("Sensor", SensorType.Gyroscope);
                 startActivity(gyroscope);
             }
         });
     }
 
 
-
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-////        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-////            ballY -= 20.0f;
-////        }
-////        ballSprite.setY(ballY);
-//        return super.onTouchEvent(event);
-//    }
 }

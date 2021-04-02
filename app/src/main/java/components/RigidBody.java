@@ -152,12 +152,12 @@ public class RigidBody {
         Vector2 moveDirection = velocity.Normalize();
         Vector2 fDynamicFriction = moveDirection.ScalarProduct(Constants.kineticFrictionCoefficient * fN.Magnitude());
 //        Vector2 friction = moveDirection.ElementWiseProduct(fDynamicFriction);
-        System.out.print("FN : " + fN + " Dynamic Friction: " + fDynamicFriction);
+//        System.out.print("FN : " + fN + " Dynamic Friction: " + fDynamicFriction);
         force.Set(
                 force.x - fDynamicFriction.x,
                 force.y - fDynamicFriction.y
         );
-        System.out.println(" After Dynamic friction: " + force);
+//        System.out.println(" After Dynamic friction: " + force);
     }
 
 
@@ -171,22 +171,22 @@ public class RigidBody {
     }
 
     private void UpdateAcceleration() {
-        System.out.print("Acceleration before: " + acceleration);
+//        System.out.print("Acceleration before: " + acceleration);
         acceleration.Set(
                 (force.x / mass) * Constants.accelerationMultiplier,
                 (force.y / mass) * Constants.accelerationMultiplier
         );
-        System.out.println(" Acceleration after: " + acceleration);
+//        System.out.println(" Acceleration after: " + acceleration);
     }
 
     private void UpdateVelocity() {
         float deltaTime = Time.DeltaTime();
-        System.out.print("Update Velocity: before: " + velocity);
+//        System.out.print("Update Velocity: before: " + velocity);
         velocity.Set(
                 acceleration.x * deltaTime + velocity.x,
                 acceleration.y * deltaTime + velocity.y
         );
-        System.out.println(" Update Velocity: after: " + velocity);
+//        System.out.println(" Update Velocity: after: " + velocity);
     }
 
     private void UpdateObjectPosition() {
@@ -270,12 +270,12 @@ public class RigidBody {
     public void Bounce(Vector2 normal) {
 //        System.out.println("normal: " + normal);
         float dot = normal.DotProduct(velocity); // dot = -velocity.y
-        System.out.print("Bounce: before: " + velocity);
+//        System.out.print("Bounce: before: " + velocity);
         velocity.Set(
                 velocity.x - 2 * dot * normal.x,
                 velocity.y - 2 * dot * normal.y
         );
-        System.out.println(" Bounce: after: " + velocity);
+//        System.out.println(" Bounce: after: " + velocity);
 
         ApplyEnergyLoss();
 
@@ -287,7 +287,7 @@ public class RigidBody {
                 velocity.x * Constants.wastedEnergyCoefficient,
                 velocity.y * Constants.wastedEnergyCoefficient
         );
-        System.out.println("Applying energy loss: velocity before: " + oldVelocity + " after: " + velocity);
+//        System.out.println("Applying energy loss: velocity before: " + oldVelocity + " after: " + velocity);
 
     }
 

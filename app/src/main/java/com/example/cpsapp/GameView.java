@@ -15,6 +15,7 @@ import coreModule.GameObject;
 import gameObjects.Ball;
 import gameObjects.GameBorder;
 import gameObjects.ThrowButton;
+import sensor.SensorBase;
 
 
 public class GameView extends SurfaceView implements Runnable {
@@ -24,9 +25,10 @@ public class GameView extends SurfaceView implements Runnable {
     private Paint paint;
     private GameObject border;
     private ThrowButton button;
+    private SensorBase sensorEventListener;
 
 
-    public GameView(Context context) {
+    public GameView(Context context, SensorBase sensorEventListener) {
         super(context);
         ball = new Ball(Constants.ballRadius,
                 Constants.ballMass,
@@ -35,7 +37,7 @@ public class GameView extends SurfaceView implements Runnable {
                 Collections.singletonList(Constants.borderTag));
         border = new GameBorder(Constants.borderTag, null);
         button = new ThrowButton(Constants.buttonTag, null);
-
+        this.sensorEventListener = sensorEventListener;
         //TODO ADD partab moshak button
         paint = new Paint();
     }
@@ -52,6 +54,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void Update() {
+        System.out.println(sensorEventListener.GetData());
         for (GameObject object:
              GameObject.gameObjects) {
             object.Update();
@@ -100,7 +103,6 @@ public class GameView extends SurfaceView implements Runnable {
     }
     public  static int RandomNumberGenerator(int min , int max){
         int random = new Random().nextInt(max - min + 1) + min;
-       // System.out.println(random);
         return random;
     }
 
@@ -116,7 +118,3 @@ public class GameView extends SurfaceView implements Runnable {
         return true;
     }
 }
-//
-//-226.02258, 226.02258
-//        -228.94202
-//        -229.16179

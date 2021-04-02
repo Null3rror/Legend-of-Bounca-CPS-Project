@@ -2,7 +2,9 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.graphics.Point;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.content.Intent;
@@ -13,11 +15,16 @@ import com.example.SensorType;
 import com.example.cpsapp.GameView;
 
 import coreModule.GameObject;
+import sensor.GravitySensor;
+import sensor.GyroscopeSensor;
+import sensor.SensorBase;
 
 public class GameActivity extends AppCompatActivity {
 
     private GameView gameView;
-
+    private SensorManager sensorManager;
+    private SensorBase sensorEventListener;
+    private SensorType sensorType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +37,27 @@ public class GameActivity extends AppCompatActivity {
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
 
-        gameView = new GameView(this);
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        Intent intent = getIntent();
+        sensorType = (SensorType) intent.getExtras().get(("Sensor"));
+        InstantiateSensor();
+
+        gameView = new GameView(this, sensorEventListener);
 
         setContentView(gameView);
 
-        Intent intent = getIntent();
-        String sensor = intent.getStringExtra("Sensor");
-        //System.out.println(sensor);
+
+
+
+    }
+
+    private void InstantiateSensor() {
+        if (sensorType.equals(SensorType.Gyroscope)) {
+            sensorEventListener = new GyroscopeSensor(sensorManager);
+        }
+        else if (sensorType.equals(SensorType.Gravity)) {
+            sensorEventListener = new GravitySensor(sensorManager);
+        }
     }
 
     @Override

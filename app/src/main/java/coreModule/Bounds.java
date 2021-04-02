@@ -71,7 +71,7 @@ public class Bounds {
         float angleInRadian = (float)Math.toRadians(angle);
 //        System.out.println("Angle in radian: " + angleInRadian);
         Vector2 normal = new Vector2(-(float)Math.sin(angleInRadian), -(float)Math.cos(angleInRadian));
-        System.out.println("Normal in normal: " + normal + " mag: " + normal.Magnitude());
+//        System.out.println("Normal in normal: " + normal + " mag: " + normal.Magnitude());
         return normal;
     }
 
@@ -84,24 +84,24 @@ public class Bounds {
 
         if(other.min.x >= min.x)  //left
         {
-            System.out.println("Left Andf");
+//            System.out.println("Left Andf");
             angle += Constants.leftAngle;
         }
         if(other.max.x <= max.x)  // right
         {
-                        System.out.println("right Andf");
+//                        System.out.println("right Andf");
             angle += Constants.rightAngle;
         }
 
         if(other.min.y >= min.y) //top
         {
-                        System.out.println("top Andf");
+//                        System.out.println("top Andf");
             angle += Constants.ceilAngle;
         }
         if(other.max.y <= max.y) //bottom
         {
             angle += Constants.floorAngle;
-                        System.out.println("bottom Andf " + angle);
+//                        System.out.println("bottom Andf " + angle);
 
         }
         return angle;
