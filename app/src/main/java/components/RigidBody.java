@@ -297,13 +297,10 @@ public class RigidBody {
 
 
     public void AddForce(float multiplier) {
-        double angle = Math.toRadians(gameObject.transform.rotation);
-//        this.acceleration.Set(Constants.g * (float)Math.sin(Math.toRadians(angle)), Constants.g * (float)Math.cos(Math.toRadians(angle)));
-//        velocity.Set(acceleration.x * 25, -1 * acceleration.y * 25);
-        float fx = mass * Constants.g * (float)Math.sin(angle);
-        float fy = mass * Constants.g * (float)Math.cos(angle);
-        float t = (float) (Math.random() + 0.5) * multiplier;
-        additionalForce.Set((float) (Math.random() + 0.5) * multiplier, 0);
+
+        float dirX = (float)(Math.random() * 2) - 1;
+        float dirY = ((float) Math.random() * 2) - 1;
+        additionalForce.Set(dirX * multiplier, dirY * multiplier);
         isOnSlope = false;
     }
 }
