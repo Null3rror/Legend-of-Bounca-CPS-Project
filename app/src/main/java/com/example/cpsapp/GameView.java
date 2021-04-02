@@ -4,10 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
-import android.view.View;
 
 import java.util.Collections;
 import java.util.Random;
@@ -22,7 +20,7 @@ import gameObjects.ThrowButton;
 public class GameView extends SurfaceView implements Runnable {
     private boolean isRunning;
     private Thread thread;
-    private GameObject ball;
+    private Ball ball;
     private Paint paint;
     private GameObject border;
     private ThrowButton button;
@@ -112,8 +110,8 @@ public class GameView extends SurfaceView implements Runnable {
         int y = (int) event.getY();
 
         if(button.IsButtonPress(x, y)){
-            if(ball.rigidBody.CanShoot())
-                ball.rigidBody.Shoot();
+            if(ball.CanShoot())
+                ball.ScheduleShoot();
         }
         return true;
     }

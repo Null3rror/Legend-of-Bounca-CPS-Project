@@ -14,16 +14,16 @@ import components.Transform;
 import components.collision.BoxCollider;
 import coreModule.Constants;
 import coreModule.GameObject;
+import coreModule.Vector2;
 
 
 public class GameBorder extends GameObject {
-    private float angle;
     private Sprite sprite;
 
 
     public GameBorder(String tag, List<String> tagsToCheckCollisionWith){
         super(tag, tagsToCheckCollisionWith);
-        angle = 0f;
+
         this.transform = new Transform();
 
         int offsetX = GetScreenWidth() / 5;
@@ -33,7 +33,6 @@ public class GameBorder extends GameObject {
         this.transform.size.Set(sizeX, sizeY);
 
         this.transform.position.Set(GetScreenWidth() >> 1, GetScreenHeight() >> 1);
-
         this.collider = new BoxCollider(this, transform.position, transform.size);
         this.sprite = new Sprite(this, SpriteType.Board);
     }
@@ -57,6 +56,23 @@ public class GameBorder extends GameObject {
 //        System.out.println("-->" + getScreenWidth() + " --> " + getScreenHeight());
         paint.setColor(Color.argb(255, 255, 165, 0));
         sprite.Draw(canvas, paint);
+        paint.setColor(Color.BLACK);
+        float angle = 0;
+        Vector2 normal;
+        normal = collider.bounds.CalculateNormal(Constants.leftAngle + angle);
+        canvas.drawLine(collider.bounds.min.x, collider.bounds.min.y + collider.bounds.size.y / 2,
+                collider.bounds.min.x + normal.x * 100, collider.bounds.min.y + collider.bounds.size.y / 2 + normal.y * 100, paint);
+        normal = collider.bounds.CalculateNormal(Constants.rightAngle + angle);
+        canvas.drawLine(collider.bounds.max.x, collider.bounds.max.y - collider.bounds.size.y / 2,
+                collider.bounds.max.x + normal.x * 100, collider.bounds.max.y - collider.bounds.size.y / 2 + normal.y * 100, paint);
+
+
+        normal = collider.bounds.CalculateNormal(Constants.ceilAngle + angle);
+        canvas.drawLine(collider.bounds.min.x + collider.bounds.size.x / 2, collider.bounds.min.y,
+                collider.bounds.min.x + collider.bounds.size.x / 2 + normal.x * 100, collider.bounds.min.y + normal.y * 100, paint);
+        normal = collider.bounds.CalculateNormal(Constants.floorAngle + angle);
+        canvas.drawLine(collider.bounds.max.x - collider.bounds.size.x / 2, collider.bounds.max.y,
+                collider.bounds.max.x - collider.bounds.size.x / 2 + normal.x * 100, collider.bounds.max.y + normal.y * 100, paint);
     }
 
 

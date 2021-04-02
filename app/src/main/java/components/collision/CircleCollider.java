@@ -10,7 +10,7 @@ public class CircleCollider extends Collider {
     public CircleCollider(GameObject gameObject, Vector2 center, float radius) {
         this.gameObject = gameObject;
         float diameter = radius * 2;
-        this.bounds = new Bounds(center, new Vector2(diameter, diameter));
+        this.bounds = new Bounds(center, new Vector2(diameter, diameter), this);
         this.radius = radius;
     }
 

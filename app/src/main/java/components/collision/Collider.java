@@ -2,6 +2,7 @@ package components.collision;
 
 import java.util.List;
 
+import components.RigidBody;
 import coreModule.Bounds;
 import coreModule.GameObject;
 
@@ -26,6 +27,10 @@ public abstract class Collider {
                     boolean doCollide = DetectCollision(other);
 //                    System.out.println("Found other: " + gameObject.tag + " " + doCollide);
                     if (doCollide) {
+                        RigidBody rigidBody = this.gameObject.rigidBody;
+                        if (rigidBody != null) {
+                            this.gameObject.rigidBody.HandleCollision(other);
+                        }
                         this.gameObject.OnCollisionEnter(other);
                     }
                 }
