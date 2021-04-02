@@ -11,7 +11,7 @@ public class Transform {
     public Transform(float posX, float posY, float sizeX, float sizeY) {
         position = new Vector2(posX, posY);
         size     = new Vector2(sizeX, sizeY);
-        this.rotation = 90f;
+        this.rotation = 20f;
     }
 
     public Transform() {
@@ -21,7 +21,7 @@ public class Transform {
     public void Reset() {
         position = new Vector2(0.0f, 0.0f);
         size     = new Vector2(1.0f, 1.0f);
-        rotation = 90f;
+        rotation = 20f;
     }
 
 

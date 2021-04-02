@@ -1,5 +1,7 @@
 package components;
 
+import android.app.Application;
+
 import components.collision.Collider;
 import coreModule.Constants;
 import coreModule.GameObject;
@@ -9,6 +11,11 @@ import coreModule.Vector2;
 
 public class RigidBody {
     private final float mass;
+
+    public Vector2 GetVelocity() {
+        return velocity;
+    }
+
     private Vector2 velocity;
     private Vector2 acceleration;
     private GameObject gameObject;
@@ -16,6 +23,7 @@ public class RigidBody {
     private boolean notMoving;
     private float collidedEdgeAngle;
     private boolean hasCollided;
+    private boolean firstUpdate;
 
 
     private Vector2 lastVelocity;
@@ -23,6 +31,7 @@ public class RigidBody {
     private Vector2 lastMax;
     private Vector2 lastMin;
     private boolean isOnSlope;
+
 
 
     public RigidBody(float mass, GameObject gameObject) {
@@ -33,6 +42,7 @@ public class RigidBody {
         this.force = Vector2.Zero();
         this.notMoving = false;
         this.hasCollided = false;
+        firstUpdate = true;
     }
 
     public void Update() {
@@ -48,64 +58,85 @@ public class RigidBody {
         force.Set(mass * g * (float)Math.sin(angleInRadian),
                   mass * g * (float)Math.cos(angleInRadian));
 
-        HandleSlope();
+        notMoving = IsNotMoving();
+        if (notMoving && isOnSlope && hasCollided) {
+            Stop();
+        }
+        else {
+            HandleSlope();
 
-//        System.out.println("notMoving: " + is + " velocity: " + velocity + " velocityMagnitude: " + velocity.Magnitude());
-        UpdateAcceleration();
-        UpdateObjectPosition();
-        UpdateVelocity();
+            UpdateAcceleration();
+            UpdateObjectPosition();
+            UpdateVelocity();
+        }
 
 
-        collidedEdgeAngle = 0.0f;
+//        collidedEdgeAngle = 0.0f;
         hasCollided = false;
+        firstUpdate = false;
+    }
+
+    private void Stop() {
+        velocity.Set(0,0);
+        acceleration.Set(0,0);
+        force.Set(0, 0);
     }
 
     private void HandleSlope() {
-        if (gameObject.collider == null || !hasCollided) return;
+        if (firstUpdate || gameObject.collider == null) return;
 
         float g = Constants.g;
-        notMoving = IsNotMoving();
-        System.out.println("notMoving: " + notMoving + " velocity: " + velocity + " velocityMagnitude: " + velocity.Magnitude());
 
-        if (notMoving) {
+//        System.out.println("notMoving: " + notMoving + " velocity: " + velocity + " velocityMagnitude: " + velocity.Magnitude());
+
+        float thetaInRadian2     = (float)Math.toRadians(collidedEdgeAngle);
+        float thetaInRadian     = (float)Math.toRadians(gameObject.transform.rotation);
+        Vector2 fN              = new Vector2((float)Math.sin(thetaInRadian), (float)Math.cos(thetaInRadian)).ScalarProduct(mass * g);
+        Vector2 normal          = new Vector2(-(float)Math.sin(thetaInRadian2), -(float)Math.cos(thetaInRadian2));
+        fN = fN.ElementWiseProduct(normal);
+        Vector2 fStaticFriction = new Vector2(fN).ScalarProduct(Constants.staticFrictionCoefficient);
+
+        Vector2 fNNormalized = fN.Normalize();
+        if (notMoving && !isOnSlope && hasCollided) {
             isOnSlope = true;
+            velocity.Set(-velocity.x * fNNormalized.y, -velocity.y * fNNormalized.x);
+            lastVelocity.Set(0.0f , 0.0f);
+//            force.Set(force.x + -fN.x, force.y + -fN.y);
         }
 
 
         if (isOnSlope) {
-//            float thetaInRadian   = (float)Math.toRadians(collidedEdgeAngle);
-//            float fN              = mass * (float)Math.cos(thetaInRadian) * g;
-//            float fStaticFriction = fN * Constants.staticFrictionCoefficient;
-//
-//            System.out.println("collidedAngle " + collidedEdgeAngle + " staticF: " + fStaticFriction + " force: " + force + " forcemag: " + force.Magnitude());
-//            if (CanSlideOnSlope(fStaticFriction, force)) {
-//                ApplyDynamicFriction(fN);
-//            }
-//            else {
-//                force.Set(0.0f, 0.0f);
-//            }
+            force.x += fN.x;
+            force.y += fN.y;
+            if (CanSlideOnSlope(fStaticFriction, force)) {
+
+                if (velocity.Magnitude() != 0) {
+                    ApplyDynamicFriction(fN);
+                }
+            }
+            else {
+                force.Set(0.0f, 0.0f);
+                velocity.Set(0.0f, 0.0f);
+            }
         }
-
-
-
 
     }
 
-    private void ApplyDynamicFriction(float fN) {
-        float fDynamicFriction = fN * Constants.kineticFrictionCoefficient;
+    private void ApplyDynamicFriction(Vector2 fN) {
         Vector2 moveDirection = velocity.Normalize();
-        Vector2 friction = moveDirection.ScalarProduct(fDynamicFriction);
-        System.out.print("FN : " + fN + " Dynamic Friction: " + friction);
+        Vector2 fDynamicFriction = moveDirection.ScalarProduct(Constants.kineticFrictionCoefficient * fN.Magnitude());
+//        Vector2 friction = moveDirection.ElementWiseProduct(fDynamicFriction);
+        System.out.print("FN : " + fN + " Dynamic Friction: " + fDynamicFriction);
         force.Set(
-                force.x - friction.x,
-                force.y - friction.y
+                force.x - fDynamicFriction.x,
+                force.y - fDynamicFriction.y
         );
         System.out.println(" After Dynamic friction: " + force);
     }
 
 
-    private boolean CanSlideOnSlope(float fStaticFriction, Vector2 force) {
-        return force.Magnitude() > fStaticFriction;
+    private boolean CanSlideOnSlope(Vector2 fStaticFriction, Vector2 force) {
+        return force.Magnitude() > fStaticFriction.Magnitude();
     }
 
 
@@ -143,14 +174,15 @@ public class RigidBody {
 
     public void HandleCollision(Collider other) {
         hasCollided = true;
+//        isOnSlope = false;
         collidedEdgeAngle = gameObject.collider.bounds.GetCollidingEdgeAngle(other.bounds) % 360;
-
+        Vector2 normal = gameObject.collider.bounds.CalculateHitPointNormal(other.bounds);
         System.out.println("collidedAngle " + collidedEdgeAngle);
 
 
-            UpdatePositionAfterCollision(other);
-
-            Bounce(other);
+        UpdatePositionAfterCollision(other);
+//        if (!isOnSlope)
+        Bounce(normal);
 
 //        System.out.println(
 //                "ball pos: " + gameObject.transform.position + " ball center:" + gameObject.collider.bounds.center + "\n" +
@@ -198,8 +230,7 @@ public class RigidBody {
 
 
 
-    public void Bounce(Collider other) {
-        Vector2 normal = gameObject.collider.bounds.CalculateHitPointNormal(other.bounds);
+    public void Bounce(Vector2 normal) {
 //        System.out.println("normal: " + normal);
         float dot = normal.DotProduct(velocity); // dot = -velocity.y
         System.out.print("Bounce: before: " + velocity);

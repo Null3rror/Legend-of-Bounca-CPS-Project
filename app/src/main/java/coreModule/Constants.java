@@ -9,7 +9,7 @@ public class Constants {
     public static final float g = 9.81f;
     public static final float wastedEnergy = 0.6f;
     public static final float wastedEnergyCoefficient;
-    public static final float velocityThreshold = 0.5f;
+    public static final float velocityThreshold = 1f;
 
     public static final float staticFrictionCoefficient = 0.15f;
     public static final float kineticFrictionCoefficient = 0.07f;
@@ -22,11 +22,14 @@ public class Constants {
 
     public static final float accelerationMultiplier = 20.0f;
 
-    public static final float ceilAngle = 0f;
-    public static final float rightAngle = 0f;
+//    public static final float ceilAngle = 180f;
+//    public static final float rightAngle = 90f;
+//    public static final float floorAngle = 0f;
+//    public static final float leftAngle = 270f;
+public static final float ceilAngle = 180f;
+    public static final float rightAngle = 90f;
     public static final float floorAngle = 0f;
-    public static final float leftAngle = 0f;
-
+    public static final float leftAngle = 270f;
 
 
 

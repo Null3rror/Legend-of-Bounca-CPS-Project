@@ -41,6 +41,10 @@ public class Ball extends GameObject {
     public void Render(Canvas canvas, Paint paint) {
         paint.setColor(Color.BLUE);
         sprite.Draw(canvas, paint);
+        Vector2 dir = rigidBody.GetVelocity().Normalize();
+        canvas.drawLine(transform.position.x, transform.position.y,
+                transform.position.x +  dir.x * 100,
+                transform.position.y +  dir.y * 100, paint);
     }
 
 

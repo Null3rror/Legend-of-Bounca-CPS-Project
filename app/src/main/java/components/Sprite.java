@@ -33,6 +33,7 @@ public class Sprite {
                         position.x + radius,
                         position.y + radius,
                         paint);
+
                 Paint.Style style = paint.getStyle();
                 paint.setStyle(Paint.Style.STROKE);
                 paint.setColor(Color.BLACK);

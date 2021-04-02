@@ -55,6 +55,23 @@ public class GameBorder extends GameObject {
 //        System.out.println("-->" + getScreenWidth() + " --> " + getScreenHeight());
         paint.setColor(Color.argb(255, 255, 165, 0));
         sprite.Draw(canvas, paint);
+        paint.setColor(Color.BLACK);
+        float angle = 0;
+        Vector2 normal;
+        normal = collider.bounds.CalculateNormal(Constants.leftAngle + angle);
+        canvas.drawLine(collider.bounds.min.x, collider.bounds.min.y + collider.bounds.size.y / 2,
+                collider.bounds.min.x + normal.x * 100, collider.bounds.min.y + collider.bounds.size.y / 2 + normal.y * 100, paint);
+        normal = collider.bounds.CalculateNormal(Constants.rightAngle + angle);
+        canvas.drawLine(collider.bounds.max.x, collider.bounds.max.y - collider.bounds.size.y / 2,
+                collider.bounds.max.x + normal.x * 100, collider.bounds.max.y - collider.bounds.size.y / 2 + normal.y * 100, paint);
+
+
+        normal = collider.bounds.CalculateNormal(Constants.ceilAngle + angle);
+        canvas.drawLine(collider.bounds.min.x + collider.bounds.size.x / 2, collider.bounds.min.y,
+                collider.bounds.min.x + collider.bounds.size.x / 2 + normal.x * 100, collider.bounds.min.y + normal.y * 100, paint);
+        normal = collider.bounds.CalculateNormal(Constants.floorAngle + angle);
+        canvas.drawLine(collider.bounds.max.x - collider.bounds.size.x / 2, collider.bounds.max.y,
+                collider.bounds.max.x - collider.bounds.size.x / 2 + normal.x * 100, collider.bounds.max.y + normal.y * 100, paint);
     }
 
 
