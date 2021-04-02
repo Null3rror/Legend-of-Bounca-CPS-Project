@@ -32,12 +32,14 @@ public class RigidBody {
     private Vector2 lastMin;
     private boolean isOnSlope;
     private boolean isStatic;
+    private Vector2 lastSlopeNormal;
 
 
 
     public RigidBody(float mass, GameObject gameObject) {
         this.mass = mass;
         this.velocity = Vector2.Zero();
+        this.velocity.Set(10, -100);
         this.acceleration = Vector2.Zero();
         this.gameObject = gameObject;
         this.force = Vector2.Zero();
@@ -46,6 +48,7 @@ public class RigidBody {
         this.hasCollided = false;
         firstUpdate = true;
         isStatic = false;
+        lastSlopeNormal = Vector2.Zero();
     }
 
     public void Update() {
@@ -63,7 +66,6 @@ public class RigidBody {
 
         if(addForce) {
             AddForce(200);
-            addForce = false;
         }
         force = force.Sum(additionalForce);
         additionalForce.Set(0, 0);
@@ -74,13 +76,24 @@ public class RigidBody {
             Stop();
         }
         else {
-            isStatic = false;
+            isStatic = true;
             HandleSlope();
 
             UpdateAcceleration();
             UpdateObjectPosition();
             UpdateVelocity();
         }
+        if (addForce) {
+            lastVelocity = new Vector2(velocity);
+            addForce = false;
+        }
+
+//        if (velocity.x < Constants.zeroThreshold) {
+//            velocity.x = 0;
+//        }
+//        if (velocity.y < Constants.zeroThreshold) {
+//            velocity.y = 0;
+//        }
 
 
 //        collidedEdgeAngle = 0.0f;
@@ -190,12 +203,20 @@ public class RigidBody {
 //        isOnSlope = false;
         collidedEdgeAngle = gameObject.collider.bounds.GetCollidingEdgeAngle(other.bounds) % 360;
         Vector2 normal = gameObject.collider.bounds.CalculateHitPointNormal(other.bounds);
-        System.out.println("collidedAngle " + collidedEdgeAngle);
+        normal = normal.Normalize();
+        isOnSlope = false;
+//        if (!isOnSlope) {
+            lastSlopeNormal.Set(normal.x, normal.y);
+//        }
+//        System.out.println("collidedAngle " + collidedEdgeAngle);
 
 
         UpdatePositionAfterCollision(other);
 //        if (!isOnSlope)
-        Bounce(normal);
+//        boolean t = lastSlopeNormal.equals(normal);
+//        if (!t || !isOnSlope) {
+            Bounce(normal);
+//        }
 
 //        System.out.println(
 //                "ball pos: " + gameObject.transform.position + " ball center:" + gameObject.collider.bounds.center + "\n" +
@@ -213,6 +234,9 @@ public class RigidBody {
 
         velocity.y = Math.signum(lastVelocity.y) * (float) Math.sqrt(Math.pow(lastVelocity.y, 2) + 2 * acceleration.y * hY);
         velocity.x = Math.signum(lastVelocity.x) * (float) Math.sqrt(Math.pow(lastVelocity.x, 2) + 2 * acceleration.x * hX);
+
+        if (velocity.x != velocity.x) velocity.x = 0;
+        if (velocity.y != velocity.y) velocity.y = 0;
     }
 
     private void UpdatePositionAfterCollision(Collider other) {
@@ -278,7 +302,8 @@ public class RigidBody {
 //        velocity.Set(acceleration.x * 25, -1 * acceleration.y * 25);
         float fx = mass * Constants.g * (float)Math.sin(angle);
         float fy = mass * Constants.g * (float)Math.cos(angle);
-        additionalForce.Set((float) (Math.random() + 0.5) * multiplier, (float) (Math.random() + 0.5) * multiplier);
+        float t = (float) (Math.random() + 0.5) * multiplier;
+        additionalForce.Set((float) (Math.random() + 0.5) * multiplier, 0);
         isOnSlope = false;
     }
 }

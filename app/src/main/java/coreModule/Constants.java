@@ -7,12 +7,14 @@ public class Constants {
 
     public static final float ballMass     = 0.01f;
     public static final float g = 9.81f;
-    public static final float wastedEnergy = 0.6f;
+    public static final float wastedEnergy = 0.9f;
     public static final float wastedEnergyCoefficient;
     public static final float velocityThreshold = 1f;
 
     public static final float staticFrictionCoefficient = 0.15f;
     public static final float kineticFrictionCoefficient = 0.07f;
+    public static final float zeroThreshold = 0.000000000000001f;
+
     static{
         wastedEnergyCoefficient = (float) Math.sqrt(1 - wastedEnergy);
     }

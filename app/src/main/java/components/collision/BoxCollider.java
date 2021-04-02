@@ -13,6 +13,6 @@ public class BoxCollider extends Collider {
 
     @Override
     public boolean DetectCollision(Collider other) {
-        return bounds.Cross(other.bounds);
+        return !other.bounds.Contains(bounds) || bounds.Intersects(other.bounds);
     }
 }

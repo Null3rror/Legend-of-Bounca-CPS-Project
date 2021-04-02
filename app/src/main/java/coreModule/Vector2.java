@@ -15,6 +15,7 @@ public class Vector2 {
     public void Set(float x, float y) {
         this.x = x;
         this.y = y;
+
     }
 
     public float SqrMagnitude() {
@@ -33,7 +34,7 @@ public class Vector2 {
 
 
     public void ScalarDivide(float scalar) {
-        if (scalar == 0.0f)
+        if (scalar == 0.0)
             return;
         x /= scalar;
         y /= scalar;
