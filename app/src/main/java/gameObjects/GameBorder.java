@@ -9,15 +9,18 @@ import com.example.SpriteType;
 
 import java.util.List;
 
+import components.SensorReader;
 import components.Sprite;
 import components.Transform;
 import components.collision.BoxCollider;
 import coreModule.Constants;
 import coreModule.GameObject;
 import coreModule.Vector2;
+import coreModule.Vector4;
 
 
 public class GameBorder extends GameObject {
+    private final SensorReader sensorReader;
     private Sprite sprite;
 
 
@@ -35,10 +38,13 @@ public class GameBorder extends GameObject {
         this.transform.position.Set(GetScreenWidth() >> 1, GetScreenHeight() >> 1);
         this.collider = new BoxCollider(this, transform.position, transform.size);
         this.sprite = new Sprite(this, SpriteType.Board);
+        this.sensorReader = new SensorReader();
     }
 
     @Override
     public void Update() {
+        Vector4 angles = sensorReader.GetAngles();
+        transform.rotation = (float) Math.toDegrees(angles.z);
 //        System.out.println(getScreenWidth() + " || " + getScreenHeight());
 
     }

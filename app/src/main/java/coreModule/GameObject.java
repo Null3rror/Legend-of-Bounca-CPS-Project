@@ -40,6 +40,10 @@ public abstract class GameObject {
 
     }
 
+    public void LateUpdate() {
+
+    }
+
     public void OnCollisionEnter(Collider other) {
 
     }

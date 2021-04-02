@@ -18,6 +18,7 @@ public class Constants {
         wastedEnergyCoefficient = (float) Math.sqrt(1 - wastedEnergy);
     }
 
+    public static final String sensorTag = "sensor";
     public static final String ballTag = "ball";
     public static final String borderTag = "border";
     public static final String buttonTag = "button";

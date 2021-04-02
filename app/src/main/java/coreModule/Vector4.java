@@ -14,6 +14,10 @@ public class Vector4 {
         this.w = w;
     }
 
+    public static Vector4 Zero() {
+        return new Vector4(0, 0,0 ,0);
+    }
+
     @Override
     public String toString() {
         return x + ", " + y + ", " + z + ", " + w;

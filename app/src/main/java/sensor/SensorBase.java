@@ -17,6 +17,10 @@ public class SensorBase implements SensorEventListener {
     protected Vector4 data;
 
     public Vector4 GetData() {
+        return GetRawData();
+    }
+
+    public Vector4 GetRawData() {
         return data;
     }
 

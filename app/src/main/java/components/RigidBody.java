@@ -39,7 +39,7 @@ public class RigidBody {
     public RigidBody(float mass, GameObject gameObject) {
         this.mass = mass;
         this.velocity = Vector2.Zero();
-        this.velocity.Set(10, -100);
+//        this.velocity.Set(0, 0);
         this.acceleration = Vector2.Zero();
         this.gameObject = gameObject;
         this.force = Vector2.Zero();
@@ -65,7 +65,7 @@ public class RigidBody {
                   mass * g * (float)Math.cos(angleInRadian));
 
         if(addForce) {
-            AddForce(200);
+            AddForce(20);
         }
         force = force.Sum(additionalForce);
         additionalForce.Set(0, 0);
@@ -282,7 +282,7 @@ public class RigidBody {
     }
 
     private void ApplyEnergyLoss() {
-        Vector2 oldVelocity = new Vector2(velocity);
+//        Vector2 oldVelocity = new Vector2(velocity);
         velocity.Set(
                 velocity.x * Constants.wastedEnergyCoefficient,
                 velocity.y * Constants.wastedEnergyCoefficient

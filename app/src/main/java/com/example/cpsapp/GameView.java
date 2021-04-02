@@ -14,6 +14,7 @@ import coreModule.Constants;
 import coreModule.GameObject;
 import gameObjects.Ball;
 import gameObjects.GameBorder;
+import gameObjects.SensorGameObject;
 import gameObjects.ThrowButton;
 import sensor.SensorBase;
 
@@ -25,11 +26,11 @@ public class GameView extends SurfaceView implements Runnable {
     private Paint paint;
     private GameObject border;
     private ThrowButton button;
-    private SensorBase sensorEventListener;
+    private SensorGameObject sensorGameObject;
 
-
-    public GameView(Context context, SensorBase sensorEventListener) {
+    public GameView(Context context, SensorBase sensor) {
         super(context);
+        sensorGameObject = new SensorGameObject(Constants.sensorTag, null, sensor);
         ball = new Ball(Constants.ballRadius,
                 Constants.ballMass,
                 GameBorder.GetScreenWidth()/2,GameBorder.GetScreenHeight()/2,
@@ -37,7 +38,6 @@ public class GameView extends SurfaceView implements Runnable {
                 Collections.singletonList(Constants.borderTag));
         border = new GameBorder(Constants.borderTag, null);
         button = new ThrowButton(Constants.buttonTag, null);
-        this.sensorEventListener = sensorEventListener;
         //TODO ADD partab moshak button
         paint = new Paint();
     }
@@ -54,7 +54,8 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void Update() {
-        System.out.println(sensorEventListener.GetData());
+//        sensorEventListener.GetData();
+//        System.out.println(sensorEventListener.GetData());
         for (GameObject object:
              GameObject.gameObjects) {
             object.Update();
@@ -62,8 +63,10 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void LateUpdate() {
-//        System.out.println(button.IsButtonPress(69, 69));
-        // nothing
+        for (GameObject object:
+                GameObject.gameObjects) {
+            object.LateUpdate();
+        }
 
     }
 
