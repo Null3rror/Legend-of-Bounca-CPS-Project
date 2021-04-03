@@ -16,6 +16,7 @@ import components.collision.BoxCollider;
 import coreModule.Constants;
 import coreModule.GameObject;
 import coreModule.Vector2;
+import coreModule.Vector3;
 import coreModule.Vector4;
 
 
@@ -44,7 +45,7 @@ public class GameBorder extends GameObject {
     @Override
     public void Update() {
         Vector4 angles = sensorReader.GetAngles();
-        transform.rotation = (float) Math.toDegrees(angles.z);
+        transform.rotation = new Vector3((float) Math.toDegrees(angles.x), (float) Math.toDegrees(angles.y), (float) Math.toDegrees(angles.z));
 //        System.out.println(getScreenWidth() + " || " + getScreenHeight());
 
     }

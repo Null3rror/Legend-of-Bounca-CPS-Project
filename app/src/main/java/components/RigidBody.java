@@ -57,12 +57,13 @@ public class RigidBody {
         lastMax = new Vector2(gameObject.collider.bounds.GetMax());
         lastMin = new Vector2(gameObject.collider.bounds.GetMin());
 
-        float angle = gameObject.transform.rotation;
-        float angleInRadian = (float)Math.toRadians(angle);
+        double angleX = Math.toRadians(gameObject.transform.rotation.x);
+        double angleY = Math.toRadians(gameObject.transform.rotation.y);
+//        float angleInRadian = (float)Math.toRadians(angle);
         float g = Constants.g;
 
-        force.Set(mass * g * (float)Math.sin(angleInRadian),
-                  mass * g * (float)Math.cos(angleInRadian));
+        force.Set(mass * g * (float)Math.sin(angleY),
+                  mass * g * (float)Math.sin(angleX));
 
         if(addForce) {
             AddForce(20);
@@ -115,8 +116,9 @@ public class RigidBody {
 //        System.out.println("notMoving: " + notMoving + " velocity: " + velocity + " velocityMagnitude: " + velocity.Magnitude());
 
         float thetaInRadian2     = (float)Math.toRadians(collidedEdgeAngle);
-        float thetaInRadian     = (float)Math.toRadians(gameObject.transform.rotation);
-        Vector2 fN              = new Vector2((float)Math.sin(thetaInRadian), (float)Math.cos(thetaInRadian)).ScalarProduct(force.Magnitude());
+        double angleX = Math.toRadians(gameObject.transform.rotation.x);
+        double angleY = Math.toRadians(gameObject.transform.rotation.y);
+        Vector2 fN              = new Vector2((float)Math.cos(angleX), (float)Math.cos(angleY)).ScalarProduct(force.Magnitude());
         Vector2 normal          = new Vector2(-(float)Math.sin(thetaInRadian2), -(float)Math.cos(thetaInRadian2));
         fN = fN.ElementWiseProduct(normal);
         Vector2 fStaticFriction = new Vector2(fN).ScalarProduct(Constants.staticFrictionCoefficient);

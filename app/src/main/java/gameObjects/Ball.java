@@ -17,6 +17,7 @@ import components.collision.Collider;
 import coreModule.Constants;
 import coreModule.GameObject;
 import coreModule.Vector2;
+import coreModule.Vector3;
 import coreModule.Vector4;
 
 public class Ball extends GameObject {
@@ -46,7 +47,7 @@ public class Ball extends GameObject {
         System.out.println("angles " + Math.toDegrees(angles.x) + ", " + Math.toDegrees(angles.y) + ", " + Math.toDegrees(angles.z));
         Vector4 rawData = sensorReader.GetRawData();
         System.out.println("raw data :" + rawData.x + ", " + rawData.y + ", " + rawData.z);
-        transform.rotation = (float) Math.toDegrees(angles.z);
+        transform.rotation = new Vector3((float) Math.toDegrees(angles.x), (float) Math.toDegrees(angles.y), (float) Math.toDegrees(angles.z));
 //        System.out.println("Ball pos:" + transform.position);
     }
 

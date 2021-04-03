@@ -24,7 +24,7 @@ public class GravitySensor extends  SensorBase {
         float g = Constants.g;
 
         Vector4 angles = new Vector4(
-                (float) Math.asin(-data.x / g) % 360,
+                (float) Math.asin(data.x / g) % 360,
                 (float) Math.asin(data.y / g) % 360,
                 (float) Math.asin(data.z / g) % 360,
                 0.0f
