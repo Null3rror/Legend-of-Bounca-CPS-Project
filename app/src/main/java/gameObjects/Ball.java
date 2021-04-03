@@ -74,4 +74,7 @@ public class Ball extends GameObject {
     }
 
 
+    public String GetAngle() {
+        return transform.rotation.toString();
+    }
 }

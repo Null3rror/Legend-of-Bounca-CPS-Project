@@ -77,6 +77,9 @@ public class GameView extends SurfaceView implements Runnable {
             border.Render(canvas, paint);
             ball.Render(canvas, paint);
             button.Render(canvas, paint);
+            paint.setColor(Color.BLACK);
+            paint.setTextSize(45);
+            canvas.drawText(ball.GetAngle(), 0f, GameBorder.GetScreenHeight() - 100f, paint);
             getHolder().unlockCanvasAndPost(canvas);
         }
 

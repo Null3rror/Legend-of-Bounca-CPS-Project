@@ -25,11 +25,17 @@ public class GyroscopeSensor extends SensorBase {
 //        angles.x = 90 - angles.y;
 //        angles.w = data.w;
         angles.Set(
-                ((float)Math.toRadians(90f) - angles.z + data.z * deltaTime) % 360 ,
-                (angles.z + data.z * deltaTime) % 360,
+                ((float)Math.toRadians(90f) - (angles.z + data.z * deltaTime)) % 360 ,
+                -((angles.z + data.z * deltaTime) % 360),
                 (angles.z + data.z * deltaTime) % 360,
                 data.w
         );
+//        angles.Set(
+//                (angles.y + data.y * deltaTime) % 360,
+//                (angles.x - data.x * deltaTime) % 360,
+//                (angles.z + data.z * deltaTime) % 360,
+//                data.w
+//        );
 
         return angles;
     }
