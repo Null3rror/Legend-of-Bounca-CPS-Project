@@ -21,7 +21,7 @@ public class GyroscopeSensor extends SensorBase {
         float deltaTime = data.w;
 
         angles.z = (angles.z + data.z * deltaTime);
-        angles.y = angles.z;
+        angles.y = -angles.z;
         angles.x = (float) (Math.toRadians(90f) - angles.z);
         angles.w = data.w;
 //        System.out.println("LALA: 27 ------> " + angles);
