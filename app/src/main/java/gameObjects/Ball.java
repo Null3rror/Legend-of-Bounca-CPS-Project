@@ -44,9 +44,9 @@ public class Ball extends GameObject {
     @Override
     public void Update() {
         Vector4 angles = sensorReader.GetAngles();
-        System.out.println("angles " + Math.toDegrees(angles.x) + ", " + Math.toDegrees(angles.y) + ", " + Math.toDegrees(angles.z));
+//        System.out.println("angles " + Math.toDegrees(angles.x) + ", " + Math.toDegrees(angles.y) + ", " + Math.toDegrees(angles.z));
         Vector4 rawData = sensorReader.GetRawData();
-        System.out.println("raw data :" + rawData.x + ", " + rawData.y + ", " + rawData.z);
+//        System.out.println("raw data :" + rawData.x + ", " + rawData.y + ", " + rawData.z);
         transform.rotation = new Vector3((float) Math.toDegrees(angles.x), (float) Math.toDegrees(angles.y), (float) Math.toDegrees(angles.z));
 //        System.out.println("Ball pos:" + transform.position);
     }

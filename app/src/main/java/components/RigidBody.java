@@ -6,6 +6,8 @@ import coreModule.GameObject;
 import coreModule.Time;
 import coreModule.Vector2;
 
+import static coreModule.Constants.velocityThreshold;
+
 
 public class RigidBody {
     private final float mass;
@@ -118,8 +120,8 @@ public class RigidBody {
         float thetaInRadian2     = (float)Math.toRadians(collidedEdgeAngle);
         double angleX = Math.toRadians(gameObject.transform.rotation.x);
         double angleY = Math.toRadians(gameObject.transform.rotation.y);
-        Vector2 fN              = new Vector2((float)Math.cos(angleX), (float)Math.cos(angleY)).ScalarProduct(force.Magnitude());
-        Vector2 normal          = new Vector2(-(float)Math.sin(thetaInRadian2), -(float)Math.cos(thetaInRadian2));
+        Vector2 fN              = new Vector2(-force.x, -force.y);
+        Vector2 normal          = new Vector2(Math.abs((float)Math.sin(thetaInRadian2)), Math.abs((float)Math.cos(thetaInRadian2)));
         fN = fN.ElementWiseProduct(normal);
         Vector2 fStaticFriction = new Vector2(fN).ScalarProduct(Constants.staticFrictionCoefficient);
 
@@ -133,18 +135,25 @@ public class RigidBody {
 
 
         if (isOnSlope) {
-            force.x += fN.x;
-            force.y += fN.y;
-            if (CanSlideOnSlope(fStaticFriction, force)) {
+            System.out.println("---------->" + normal);
+            System.out.println("---------->" + force);
+            Vector2 _normal  = new Vector2(-(float)Math.sin(thetaInRadian2), -(float)Math.cos(thetaInRadian2));
+            if(_normal.x * force.x + _normal.y * force.y > 0){
+                isOnSlope = false;
+            }else {
+                force.x += fN.x;
+                force.y += fN.y;
 
-                if (velocity.Magnitude() != 0) {
-                    ApplyDynamicFriction(fN);
+                if (CanSlideOnSlope(fStaticFriction, force)) {
+
+                    if (velocity.Magnitude() != 0) {
+                        ApplyDynamicFriction(fN);
+                    }
+                } else {
+                    isStatic = true;
+                    force.Set(0.0f, 0.0f);
+                    velocity.Set(0.0f, 0.0f);
                 }
-            }
-            else {
-                isStatic = true;
-                force.Set(0.0f, 0.0f);
-                velocity.Set(0.0f, 0.0f);
             }
         }
 
@@ -169,7 +178,7 @@ public class RigidBody {
 
 
     private boolean IsNotMoving()  { // checks if velocity is near zero
-        return velocity.Magnitude() < Constants.velocityThreshold;
+        return velocity.Magnitude() < velocityThreshold;
     }
 
     private void UpdateAcceleration() {
@@ -183,7 +192,7 @@ public class RigidBody {
 
     private void UpdateVelocity() {
         float deltaTime = Time.DeltaTime();
-//        System.out.print("Update Velocity: before: " + velocity);
+
         velocity.Set(
                 acceleration.x * deltaTime + velocity.x,
                 acceleration.y * deltaTime + velocity.y
