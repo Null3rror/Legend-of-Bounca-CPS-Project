@@ -20,16 +20,16 @@ public class GyroscopeSensor extends SensorBase {
 //        System.out.println("Gyroscope");
         float deltaTime = data.w;
 
-        angles.z = (angles.z + data.z * deltaTime) % 360;
-        angles.y = angles.z;
-        angles.x = 90 - angles.y;
-        angles.w = data.w;
-//        angles.Set(
-//                90f - (angles.z + data.z * deltaTime) % 360 ,
-//                (angles.z + data.z * deltaTime) % 360,
-//                (angles.z + data.z * deltaTime) % 360,
-//                data.w
-//        );
+//        angles.z = (angles.z + data.z * deltaTime) % 360;
+//        angles.y = angles.z;
+//        angles.x = 90 - angles.y;
+//        angles.w = data.w;
+        angles.Set(
+                ((float)Math.toRadians(90f) - angles.z + data.z * deltaTime) % 360 ,
+                (angles.z + data.z * deltaTime) % 360,
+                (angles.z + data.z * deltaTime) % 360,
+                data.w
+        );
 
         return angles;
     }

@@ -118,8 +118,8 @@ public class RigidBody {
 //        System.out.println("notMoving: " + notMoving + " velocity: " + velocity + " velocityMagnitude: " + velocity.Magnitude());
 
         float thetaInRadian2     = (float)Math.toRadians(collidedEdgeAngle);
-        double angleX = Math.toRadians(gameObject.transform.rotation.x);
-        double angleY = Math.toRadians(gameObject.transform.rotation.y);
+//        double angleX = Math.toRadians(gameObject.transform.rotation.x);
+//        double angleY = Math.toRadians(gameObject.transform.rotation.y);
         Vector2 fN              = new Vector2(-force.x, -force.y);
         Vector2 normal          = new Vector2(Math.abs((float)Math.sin(thetaInRadian2)), Math.abs((float)Math.cos(thetaInRadian2)));
         fN = fN.ElementWiseProduct(normal);
